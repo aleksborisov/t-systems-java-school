@@ -12,8 +12,8 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
 @Configuration
-@ComponentScan("com.marsarmy")
 @EnableWebMvc
+@ComponentScan("com.marsarmy")
 public class WebConfig implements WebMvcConfigurer {
 
     @Bean
@@ -27,8 +27,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/**")
-                .addResourceLocations("/resources/");
+        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
     }
 
     @Override
