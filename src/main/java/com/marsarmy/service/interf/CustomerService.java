@@ -5,6 +5,7 @@ import com.marsarmy.model.Customer;
 import java.util.List;
 
 public interface CustomerService {
+
     void create(Customer customer);
 
     void update(Customer customer);

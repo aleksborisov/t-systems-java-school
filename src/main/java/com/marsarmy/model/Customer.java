@@ -1,16 +1,18 @@
 package com.marsarmy.model;
 
-import com.marsarmy.model.enumeration.Role;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -18,16 +20,12 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Customer {
+public class Customer implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "customer_id")
     private long id;
-
-    @Column(name = "role_id", nullable = false)
-    @Enumerated(EnumType.ORDINAL)
-    private Role role;
 
     @Column(name = "first_name", length = 50, nullable = false)
     @NotBlank
@@ -49,11 +47,18 @@ public class Customer {
     @Email
     private String email;
 
-    @Column(name = "password", length = 50, nullable = false)
+    @Column(name = "password", nullable = false)
     @NotBlank
-    @Size(min = 6, max = 50)
+    @Size(min = 6, max = 255)
     @Pattern(regexp = "^\\S+$")
     private String password;
+
+    @ManyToMany
+    @JoinTable(name = "roles_of_customers",
+            joinColumns = {@JoinColumn(name = "customer_id", nullable = false)},
+            inverseJoinColumns = {@JoinColumn(name = "role_id", nullable = false)})
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<Role> roles;
 
     @OneToMany(mappedBy = "customer",
             cascade = CascadeType.ALL,
@@ -68,13 +73,32 @@ public class Customer {
     private List<Order> orders;
 
     @Override
-    public String toString() {
-        return "id = " + id +
-                ", role = " + role +
-                ", firstName = " + firstName +
-                ", lastName = " + lastName +
-                ", dateOfBirth = " + dateOfBirth +
-                ", email = " + email +
-                ", password = " + password;
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return getRoles();
+    }
+
+    @Override
+    public String getUsername() {
+        return getEmail();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

@@ -10,37 +10,18 @@ CREATE SCHEMA IF NOT EXISTS `mars_army_store` DEFAULT CHARACTER SET utf8;
 USE `mars_army_store`;
 
 -- -----------------------------------------------------
--- Table `mars_army_store`.`roles`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mars_army_store`.`roles`
-(
-    `role_id` BIGINT(10)  NOT NULL,
-    `name`    VARCHAR(20) NOT NULL,
-    PRIMARY KEY (`role_id`),
-    UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE
-)
-    ENGINE = InnoDB;
-
--- -----------------------------------------------------
 -- Table `mars_army_store`.`customers`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mars_army_store`.`customers`
 (
-    `customer_id`   BIGINT(10)  NOT NULL AUTO_INCREMENT,
-    `role_id`       BIGINT(10)  NOT NULL,
-    `first_name`    VARCHAR(50) NOT NULL,
-    `last_name`     VARCHAR(50) NOT NULL,
-    `date_of_birth` DATE        NOT NULL,
-    `email`         VARCHAR(50) NOT NULL,
-    `password`      VARCHAR(50) NOT NULL,
+    `customer_id`   BIGINT(10)   NOT NULL AUTO_INCREMENT,
+    `first_name`    VARCHAR(50)  NOT NULL,
+    `last_name`     VARCHAR(50)  NOT NULL,
+    `date_of_birth` DATE         NOT NULL,
+    `email`         VARCHAR(50)  NOT NULL,
+    `password`      VARCHAR(255) NOT NULL,
     PRIMARY KEY (`customer_id`),
-    UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
-    INDEX `role_in_customer` (`role_id` ASC) VISIBLE,
-    CONSTRAINT `role_in_customer`
-        FOREIGN KEY (`role_id`)
-            REFERENCES `mars_army_store`.`roles` (`role_id`)
-            ON DELETE NO ACTION
-            ON UPDATE NO ACTION
+    UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE
 )
     ENGINE = InnoDB;
 
@@ -216,7 +197,7 @@ CREATE TABLE IF NOT EXISTS `mars_army_store`.`products_in_orders`
     `order_id`             BIGINT(10) NOT NULL,
     `number_of_products`   INT        NOT NULL,
     PRIMARY KEY (`products_in_order_id`),
-    INDEX `product_in order` (`product_upc` ASC) VISIBLE,
+    INDEX `product_in_order` (`product_upc` ASC) VISIBLE,
     INDEX `order_in_product` (`order_id` ASC) VISIBLE,
     CONSTRAINT `product_in_order`
         FOREIGN KEY (`product_upc`)
@@ -231,6 +212,42 @@ CREATE TABLE IF NOT EXISTS `mars_army_store`.`products_in_orders`
 )
     ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Table `mars_army_store`.`roles`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mars_army_store`.`roles`
+(
+    `role_id` BIGINT(10)  NOT NULL,
+    `name`    VARCHAR(20) NOT NULL,
+    PRIMARY KEY (`role_id`),
+    UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE
+)
+    ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `mars_army_store`.`roles_of_customers`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mars_army_store`.`roles_of_customers`
+(
+    `roles_of_customer_id` BIGINT(10) NOT NULL AUTO_INCREMENT,
+    `customer_id`          BIGINT(10) NOT NULL,
+    `role_id`              BIGINT(10) NOT NULL,
+    PRIMARY KEY (`roles_of_customer_id`),
+    INDEX `role_of_customer` (`role_id` ASC) INVISIBLE,
+    INDEX `customer_of_role` (`customer_id` ASC) INVISIBLE,
+    CONSTRAINT `role_of_customer`
+        FOREIGN KEY (`role_id`)
+            REFERENCES `mars_army_store`.`roles` (`role_id`)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION,
+    CONSTRAINT `customer_of_role`
+        FOREIGN KEY (`customer_id`)
+            REFERENCES `mars_army_store`.`customers` (`customer_id`)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION
+)
+    ENGINE = InnoDB;
+
 SET SQL_MODE = @OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS = @OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS = @OLD_UNIQUE_CHECKS;
@@ -239,9 +256,9 @@ SET UNIQUE_CHECKS = @OLD_UNIQUE_CHECKS;
 -- Fill table `mars_army_store`.`roles`
 -- -----------------------------------------------------
 INSERT INTO mars_army_store.roles (role_id, name)
-VALUES (0, 'ADMIN');
+VALUES (0, 'ROLE_ADMIN');
 INSERT INTO mars_army_store.roles (role_id, name)
-VALUES (1, 'CUSTOMER');
+VALUES (1, 'ROLE_USER');
 
 -- -----------------------------------------------------
 -- Fill table `mars_army_store`.`payment_methods`
@@ -354,10 +371,10 @@ VALUES (766871500345, 10, 'Wallet', 19, 'Techinkom', 'EMR Digital Flora', 50, 95
 -- -----------------------------------------------------
 -- Fill table `mars_army_store`.`customers`
 -- -----------------------------------------------------
-INSERT INTO mars_army_store.customers (role_id, first_name, last_name, date_of_birth, email, password)
-VALUES (0, 'John', 'Smith', '1970-01-01', 'smith@gmail.com', 'adminpassword');
-INSERT INTO mars_army_store.customers (role_id, first_name, last_name, date_of_birth, email, password)
-VALUES (1, 'Antoni', 'Gaudi', '1852-06-25', 'gaudi@gmail.com', 'oldpassword');
+INSERT INTO mars_army_store.customers (first_name, last_name, date_of_birth, email, password)
+VALUES ('John', 'Smith', '1970-01-01', 'smith@gmail.com', 'adminpassword');
+INSERT INTO mars_army_store.customers (first_name, last_name, date_of_birth, email, password)
+VALUES ('Antoni', 'Gaudi', '1852-06-25', 'gaudi@gmail.com', 'oldpassword');
 
 -- -----------------------------------------------------
 -- Fill table `mars_army_store`.`addresses`
@@ -366,3 +383,11 @@ INSERT INTO mars_army_store.addresses (customer_id, country, city, zip_code, str
 VALUES (1, 'USA', 'New York City', 101180114, 'West 34th Street', 20, 1);
 INSERT INTO mars_army_store.addresses (customer_id, country, city, zip_code, street, building, apartment)
 VALUES (2, 'Spain', 'Barcelona', 08013, 'Carrer Mallorca', 401, 3);
+
+-- -----------------------------------------------------
+-- Fill table `mars_army_store`.`roles_of_customers`
+-- -----------------------------------------------------
+INSERT INTO mars_army_store.roles_of_customers (customer_id, role_id)
+VALUES (1, 0);
+INSERT INTO mars_army_store.roles_of_customers (customer_id, role_id)
+VALUES (2, 1);

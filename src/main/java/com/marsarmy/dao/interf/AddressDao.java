@@ -5,6 +5,7 @@ import com.marsarmy.model.Address;
 import java.util.List;
 
 public interface AddressDao {
+
     void create(Address address);
 
     void update(Address address);

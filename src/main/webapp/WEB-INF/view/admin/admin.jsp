@@ -1,8 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<html lang="en">
+<html>
 <head>
-    <title>Mars Army Store</title>
+    <title>Admin</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -69,8 +69,7 @@
     </nav>
 </header>
 <article>
-    <img src="https://www.futurity.org/wp/wp-content/uploads/2018/08/Mars-against-black_1600.jpg"
-         class="img-fluid" alt="">
+    <h1>Admin</h1>
 </article>
 </body>
 </html>

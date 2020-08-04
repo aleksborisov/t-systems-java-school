@@ -32,8 +32,13 @@ public class AdminController {
         this.categoryConverter = categoryConverter;
     }
 
+    @GetMapping("/admin")
+    public String getAdmin() {
+        return "admin/admin";
+    }
+
     @GetMapping("/edit_product")
-    public String showEditProduct(Model model, @RequestParam Long upc) {
+    public String getEditProduct(Model model, @RequestParam Long upc) {
         ProductDto productDto = productConverter.convertToDto(productService.getOne(upc));
         model.addAttribute("productDto", productDto);
         List<CategoryDto> categoriesDto = categoryConverter.convertToListOfDto(categoryService.getAll());
@@ -48,7 +53,7 @@ public class AdminController {
     }
 
     @GetMapping("/delete_product")
-    public String showDeleteProduct(Model model, @RequestParam Long upc) {
+    public String getDeleteProduct(Model model, @RequestParam Long upc) {
         Product product = productService.getOne(upc);
         product.setDeleted(true);
         model.addAttribute("productDto", productConverter.convertToDto(product));

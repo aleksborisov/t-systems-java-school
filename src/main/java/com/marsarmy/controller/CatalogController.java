@@ -31,7 +31,7 @@ public class CatalogController {
     }
 
     @GetMapping("/catalog")
-    public String showCatalog(Model model,
+    public String getCatalog(Model model,
                              @RequestParam(required = false) String categoryDto,
                              @RequestParam(required = false) String name,
                              @RequestParam(required = false) Integer minPrice,

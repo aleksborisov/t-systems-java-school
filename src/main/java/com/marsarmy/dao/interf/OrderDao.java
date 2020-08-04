@@ -5,6 +5,7 @@ import com.marsarmy.model.Order;
 import java.util.List;
 
 public interface OrderDao {
+
     void create(Order order);
 
     void update(Order order);

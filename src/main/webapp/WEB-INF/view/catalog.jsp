@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="core" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
@@ -27,8 +28,10 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
                 <a class="nav-item nav-link active" href="${pageContext.request.contextPath}/catalog">Catalog</a>
-                <a class="nav-item nav-link active" href="#">About</a>
-                <a class="nav-item nav-link active" href="#">Admin</a>
+                <a class="nav-item nav-link active" href="${pageContext.request.contextPath}/about">About</a>
+                <sec:authorize access="hasRole('ADMIN')">
+                    <a class="nav-item nav-link active" href="${pageContext.request.contextPath}/admin/admin">Admin</a>
+                </sec:authorize>
             </div>
         </div>
         <ul class="navbar-nav ml-md-auto">
@@ -47,10 +50,22 @@
                 </div>
             </li>
             <li class="nav-item">
-                <div class="btn-group" role="group">
-                    <a class="btn btn-secondary" href="#" role="button">Sign up</a>
-                    <a class="btn btn-secondary" href="#" role="button">Sign in</a>
-                </div>
+                <sec:authorize access="!isAuthenticated()">
+                    <div class="btn-group" role="group">
+                        <a class="btn btn-secondary" href="${pageContext.request.contextPath}/sign_up"
+                           role="button">Sign up</a>
+                        <a class="btn btn-secondary" href="${pageContext.request.contextPath}/login"
+                           role="button">Sign in</a>
+                    </div>
+                </sec:authorize>
+                <sec:authorize access="isAuthenticated()">
+                    <div class="btn-group" role="group">
+                        <a class="btn btn-secondary" href="${pageContext.request.contextPath}/account/account"
+                           role="button">Account</a>
+                        <a class="btn btn-secondary" href="${pageContext.request.contextPath}/logout"
+                           role="button">Sign out</a>
+                    </div>
+                </sec:authorize>
             </li>
         </ul>
     </nav>
@@ -110,10 +125,14 @@
                             <div class="card-text text-left">Quantity: ${product.inStock}</div>
                             <h5 class="card-title">$${product.price}</h5>
                             <a href="#" class="btn btn-primary btn-lg btn-block">Buy</a>
-                            <a href="${pageContext.request.contextPath}/admin/edit_product?upc=${product.upc}"
-                               class="btn btn-warning btn-lg btn-block">Edit</a>
-                            <a href="${pageContext.request.contextPath}/admin/delete_product?upc=${product.upc}"
-                               class="btn btn-danger btn-lg btn-block">Delete</a>
+                            <sec:authorize access="hasRole('ADMIN')">
+                                <a href="${pageContext.request.contextPath}/admin/edit_product?upc=${product.upc}"
+                                   class="btn btn-warning btn-lg btn-block">Edit</a>
+                            </sec:authorize>
+                            <sec:authorize access="hasRole('ADMIN')">
+                                <a href="${pageContext.request.contextPath}/admin/delete_product?upc=${product.upc}"
+                                   class="btn btn-danger btn-lg btn-block">Delete</a>
+                            </sec:authorize>
                         </div>
                     </div>
                 </div>

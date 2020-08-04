@@ -5,6 +5,7 @@ import com.marsarmy.model.Category;
 import java.util.List;
 
 public interface CategoryDao {
+
     void create(Category category);
 
     void update(Category category);
