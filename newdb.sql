@@ -26,29 +26,6 @@ CREATE TABLE IF NOT EXISTS `mars_army_store`.`customers`
     ENGINE = InnoDB;
 
 -- -----------------------------------------------------
--- Table `mars_army_store`.`addresses`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mars_army_store`.`addresses`
-(
-    `address_id`  BIGINT(10)   NOT NULL AUTO_INCREMENT,
-    `customer_id` BIGINT(10)   NOT NULL,
-    `country`     VARCHAR(50)  NOT NULL,
-    `city`        VARCHAR(255) NOT NULL,
-    `zip_code`    VARCHAR(9)   NOT NULL,
-    `street`      VARCHAR(255) NOT NULL,
-    `building`    INT          NOT NULL,
-    `apartment`   INT          NOT NULL,
-    PRIMARY KEY (`address_id`),
-    INDEX `customer_in_address` (`customer_id` ASC) VISIBLE,
-    CONSTRAINT `customer_in_address`
-        FOREIGN KEY (`customer_id`)
-            REFERENCES `mars_army_store`.`customers` (`customer_id`)
-            ON DELETE NO ACTION
-            ON UPDATE NO ACTION
-)
-    ENGINE = InnoDB;
-
--- -----------------------------------------------------
 -- Table `mars_army_store`.`payment_methods`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mars_army_store`.`payment_methods`
@@ -101,16 +78,17 @@ CREATE TABLE IF NOT EXISTS `mars_army_store`.`order_statuses`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mars_army_store`.`orders`
 (
-    `order_id`           BIGINT(10) NOT NULL AUTO_INCREMENT,
-    `customer_id`        BIGINT(10) NOT NULL,
-    `address_id`         BIGINT(10) NOT NULL,
-    `payment_method_id`  BIGINT(10) NOT NULL,
-    `delivery_method_id` BIGINT(10) NOT NULL,
-    `payment_status_id`  BIGINT(10) NOT NULL,
-    `order_status_id`    BIGINT(10) NOT NULL,
+    `order_id`           BIGINT(10)   NOT NULL AUTO_INCREMENT,
+    `customer_id`        BIGINT(10)   NOT NULL,
+    `payment_method_id`  BIGINT(10)   NOT NULL,
+    `delivery_method_id` BIGINT(10)   NOT NULL,
+    `payment_status_id`  BIGINT(10)   NOT NULL,
+    `order_status_id`    BIGINT(10)   NOT NULL,
+    `address`            VARCHAR(255) NOT NULL,
+    `total`              INT          NOT NULL,
+    `date_of_sale`       DATE         NOT NULL,
     PRIMARY KEY (`order_id`),
     INDEX `customer_in_order` (`customer_id` ASC) VISIBLE,
-    INDEX `address_in_order` (`address_id` ASC) VISIBLE,
     INDEX `payment_method_in_order_idx` (`payment_method_id` ASC) VISIBLE,
     INDEX `delivery_method_in_order_idx` (`delivery_method_id` ASC) VISIBLE,
     INDEX `payment_status_in_order_idx` (`payment_status_id` ASC) VISIBLE,
@@ -118,11 +96,6 @@ CREATE TABLE IF NOT EXISTS `mars_army_store`.`orders`
     CONSTRAINT `customer_in_order`
         FOREIGN KEY (`customer_id`)
             REFERENCES `mars_army_store`.`customers` (`customer_id`)
-            ON DELETE NO ACTION
-            ON UPDATE NO ACTION,
-    CONSTRAINT `address_in_order`
-        FOREIGN KEY (`address_id`)
-            REFERENCES `mars_army_store`.`addresses` (`address_id`)
             ON DELETE NO ACTION
             ON UPDATE NO ACTION,
     CONSTRAINT `payment_method_in_order`
@@ -143,6 +116,29 @@ CREATE TABLE IF NOT EXISTS `mars_army_store`.`orders`
     CONSTRAINT `order_status_in_order`
         FOREIGN KEY (`order_status_id`)
             REFERENCES `mars_army_store`.`order_statuses` (`order_status_id`)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION
+)
+    ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `mars_army_store`.`addresses`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mars_army_store`.`addresses`
+(
+    `address_id`  BIGINT(10)   NOT NULL AUTO_INCREMENT,
+    `customer_id` BIGINT(10)   NOT NULL,
+    `country`     VARCHAR(50)  NOT NULL,
+    `city`        VARCHAR(255) NOT NULL,
+    `zip_code`    VARCHAR(9)   NOT NULL,
+    `street`      VARCHAR(255) NOT NULL,
+    `building`    INT          NOT NULL,
+    `apartment`   INT          NOT NULL,
+    PRIMARY KEY (`address_id`),
+    INDEX `customer_in_address` (`customer_id` ASC) VISIBLE,
+    CONSTRAINT `customer_in_address`
+        FOREIGN KEY (`customer_id`)
+            REFERENCES `mars_army_store`.`customers` (`customer_id`)
             ON DELETE NO ACTION
             ON UPDATE NO ACTION
 )
@@ -372,17 +368,25 @@ VALUES (766871500345, 10, 'Wallet', 19, 'Techinkom', 'EMR Digital Flora', 50, 95
 -- Fill table `mars_army_store`.`customers`
 -- -----------------------------------------------------
 INSERT INTO mars_army_store.customers (first_name, last_name, date_of_birth, email, password)
-VALUES ('John', 'Smith', '1970-01-01', 'smith@gmail.com', 'adminpassword');
+VALUES ('John', 'Smith', '1970-01-01', 'smith@gmail.com', '$2a$10$mT.pnD6b1UYoGJqMpyaKoeY2pgZsRnTsQZZ1bKMrAv18FaUZFqsme');
 INSERT INTO mars_army_store.customers (first_name, last_name, date_of_birth, email, password)
-VALUES ('Antoni', 'Gaudi', '1852-06-25', 'gaudi@gmail.com', 'oldpassword');
+VALUES ('Antoni', 'Gaudi', '1852-06-25', 'gaudi@gmail.com', '$2a$10$JJEIgUaK7H7RoBiFFtk9V.kVGbLHl1mkv8oM42XUy0HiRKL.v2cca');
+INSERT INTO mars_army_store.customers (first_name, last_name, date_of_birth, email, password)
+VALUES ('Test', 'Testovich', '1970-01-01', 'test@gmail.com', '$2a$10$v.dF4pGCp/2M2yy9Y58W0eIp8KM.qi.hNUr/p6YPnOi8Pio3XFprK');
 
 -- -----------------------------------------------------
 -- Fill table `mars_army_store`.`addresses`
 -- -----------------------------------------------------
 INSERT INTO mars_army_store.addresses (customer_id, country, city, zip_code, street, building, apartment)
-VALUES (1, 'USA', 'New York City', 101180114, 'West 34th Street', 20, 1);
+VALUES (1, 'USA', 'New York City', 101180114, 'West 34th Street', 20, 666);
 INSERT INTO mars_army_store.addresses (customer_id, country, city, zip_code, street, building, apartment)
 VALUES (2, 'Spain', 'Barcelona', 08013, 'Carrer Mallorca', 401, 3);
+INSERT INTO mars_army_store.addresses (customer_id, country, city, zip_code, street, building, apartment)
+VALUES (3, 'Russia', 'Moscow', 103132, 'Ilinka Street', 23, 1);
+INSERT INTO mars_army_store.addresses (customer_id, country, city, zip_code, street, building, apartment)
+VALUES (3, 'Italy', 'Roma', 00184, 'Piazza del Colosseo', 1, 1);
+INSERT INTO mars_army_store.addresses (customer_id, country, city, zip_code, street, building, apartment)
+VALUES (3, 'France', 'Nice', 06364, 'Rue de le Hotel de ville', 5, 7);
 
 -- -----------------------------------------------------
 -- Fill table `mars_army_store`.`roles_of_customers`
@@ -391,3 +395,40 @@ INSERT INTO mars_army_store.roles_of_customers (customer_id, role_id)
 VALUES (1, 0);
 INSERT INTO mars_army_store.roles_of_customers (customer_id, role_id)
 VALUES (2, 1);
+INSERT INTO mars_army_store.roles_of_customers (customer_id, role_id)
+VALUES (3, 1);
+
+-- -----------------------------------------------------
+-- Fill table `mars_army_store`.`orders`
+-- -----------------------------------------------------
+INSERT INTO mars_army_store.orders (customer_id, payment_method_id, delivery_method_id, payment_status_id,
+                                    order_status_id, address, total, date_of_sale)
+VALUES (3, 0, 0, 0, 0, '1 Ilinka Street 23, Moscow, Russia, 103132', 99, '2020-08-01');
+INSERT INTO mars_army_store.orders (customer_id, payment_method_id, delivery_method_id, payment_status_id,
+                                    order_status_id, address, total, date_of_sale)
+VALUES (3, 1, 1, 1, 1, '1 Piazza del Colosseo 1, Roma, Italy, 00184', 741, '2020-08-03');
+INSERT INTO mars_army_store.orders (customer_id, payment_method_id, delivery_method_id, payment_status_id,
+                                    order_status_id, address, total, date_of_sale)
+VALUES (3, 0, 1, 1, 2, '5 Rue de le Hotel de ville 7, Nice, France, 06364', 456, '2020-08-04');
+
+-- -----------------------------------------------------
+-- Fill table `mars_army_store`.`products_in_orders`
+-- -----------------------------------------------------
+INSERT INTO mars_army_store.products_in_orders (product_upc, order_id, number_of_products)
+VALUES (766871496808, 1, 5);
+INSERT INTO mars_army_store.products_in_orders (product_upc, order_id, number_of_products)
+VALUES (766871499069, 1, 7);
+INSERT INTO mars_army_store.products_in_orders (product_upc, order_id, number_of_products)
+VALUES (766871496891, 1, 3);
+INSERT INTO mars_army_store.products_in_orders (product_upc, order_id, number_of_products)
+VALUES (766871498864, 2, 2);
+INSERT INTO mars_army_store.products_in_orders (product_upc, order_id, number_of_products)
+VALUES (766871497072, 2, 8);
+INSERT INTO mars_army_store.products_in_orders (product_upc, order_id, number_of_products)
+VALUES (766871498130, 2, 1);
+INSERT INTO mars_army_store.products_in_orders (product_upc, order_id, number_of_products)
+VALUES (766871498659, 3, 4);
+INSERT INTO mars_army_store.products_in_orders (product_upc, order_id, number_of_products)
+VALUES (766871498376, 3, 6);
+INSERT INTO mars_army_store.products_in_orders (product_upc, order_id, number_of_products)
+VALUES (766871498086, 3, 9);

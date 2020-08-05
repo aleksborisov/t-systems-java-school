@@ -27,7 +27,12 @@ public class AddressDaoImpl implements AddressDao {
 
     @Override
     public void delete(Address address) {
-        entityManager.remove(address);
+//        entityManager.remove(entityManager.find(Address.class, address.getId()));
+//        entityManager.remove(entityManager.getReference(Address.class, address.getId()));
+//        entityManager.remove(entityManager.contains(address) ? address : entityManager.merge(address));
+        entityManager.createQuery("delete from Address where id = :id")
+                .setParameter("id", address.getId())
+                .executeUpdate();
     }
 
     @Override
@@ -46,12 +51,12 @@ public class AddressDaoImpl implements AddressDao {
     }
 
     @Override
-    public Address getByCustomerId(long customerId) {
+    public List<Address> getByCustomerId(long customerId) {
         TypedQuery<Address> query = entityManager.createQuery(
                 "select a from Address a where a.customer.id = :customerId",
                 Address.class
         );
         query.setParameter("customerId", customerId);
-        return query.getResultList().stream().findAny().orElse(null);
+        return query.getResultList();
     }
 }

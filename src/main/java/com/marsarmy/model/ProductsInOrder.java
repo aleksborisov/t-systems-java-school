@@ -6,16 +6,17 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "products_in_orders")
 @NoArgsConstructor
 @Getter
 @Setter
-public class ProductsInOrder {
+public class ProductsInOrder implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "products_in_order_id")
     private long id;
 

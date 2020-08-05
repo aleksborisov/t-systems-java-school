@@ -3,6 +3,7 @@ package com.marsarmy.service.impl;
 import com.marsarmy.dao.interf.AddressDao;
 import com.marsarmy.model.Address;
 import com.marsarmy.service.interf.AddressService;
+import com.marsarmy.service.interf.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,10 +15,12 @@ import java.util.List;
 public class AddressServiceImpl implements AddressService {
 
     private final AddressDao addressDao;
+    private final CustomerService customerService;
 
     @Autowired
-    public AddressServiceImpl(AddressDao addressDao) {
+    public AddressServiceImpl(AddressDao addressDao, CustomerService customerService) {
         this.addressDao = addressDao;
+        this.customerService = customerService;
     }
 
     @Override
@@ -33,6 +36,12 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
+    @Transactional
+    public void delete(Address address) {
+        addressDao.delete(address);
+    }
+
+    @Override
     public List<Address> getAll() {
         return addressDao.getAll();
     }
@@ -43,7 +52,12 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public Address getByCustomerId(long customerId) {
+    public List<Address> getByCustomerId(long customerId) {
         return addressDao.getByCustomerId(customerId);
+    }
+
+    @Override
+    public List<Address> getByCustomerEmail(String email) {
+        return addressDao.getByCustomerId(customerService.getOne(email).getId());
     }
 }

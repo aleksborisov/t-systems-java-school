@@ -39,4 +39,14 @@ public class OrderDaoImpl implements OrderDao {
         query.setParameter("id", id);
         return query.getResultList().stream().findAny().orElse(null);
     }
+
+    @Override
+    public List<Order> getByCustomer(long customerId) {
+        TypedQuery<Order> query = entityManager.createQuery(
+                "select o from Order o where o.customer.id = :customerId order by o.dateOfSale desc",
+                Order.class
+        );
+        query.setParameter("customerId", customerId);
+        return query.getResultList();
+    }
 }

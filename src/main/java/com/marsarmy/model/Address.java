@@ -3,24 +3,22 @@ package com.marsarmy.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.List;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "addresses")
 @NoArgsConstructor
 @Getter
 @Setter
-public class Address {
+public class Address implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "address_id")
     private long id;
 
@@ -55,9 +53,4 @@ public class Address {
     @Column(name = "apartment", nullable = false)
     @Min(1)
     private int apartment;
-
-    @OneToMany(mappedBy = "address",
-            cascade = CascadeType.ALL)
-    @LazyCollection(LazyCollectionOption.FALSE)
-    private List<Order> orders;
 }

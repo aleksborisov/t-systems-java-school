@@ -16,5 +16,5 @@ public interface AddressDao {
 
     Address getOne(long id);
 
-    Address getByCustomerId(long customerId);
+    List<Address> getByCustomerId(long customerId);
 }

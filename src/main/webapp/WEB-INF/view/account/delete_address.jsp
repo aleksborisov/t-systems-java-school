@@ -1,10 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%@ taglib prefix="core" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>Edit product</title>
+    <title>Delete address</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -74,96 +73,60 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-5">
-                <h1>Editing the product</h1>
-                <form:form method="post" action="/admin/edit_product" modelAttribute="productDto">
+                <h1>Are you sure you want to remove this address?</h1>
+                <form:form method="post" action="/account/delete_address" modelAttribute="addressDto">
                     <form>
                         <div class="form-group row">
-                            <label for="name" class="col-sm-2 col-form-label">Name</label>
                             <div class="col-sm-10">
-                                <form:input path="name" type="text" name="name"
-                                            value="${productDto.name}" cssClass="form-control"/>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="categoryDto" class="col-sm-2 col-form-label">Category</label>
-                            <div class="col-sm-10">
-                                <form:select path="categoryDto" cssClass="form-control">
-                                    <form:options items="${categoriesDto}" itemValue="name" itemLabel="name"/>
-                                </form:select>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="brand" class="col-sm-2 col-form-label">Brand</label>
-                            <div class="col-sm-10">
-                                <form:input path="brand" type="text" name="brand"
-                                            value="${productDto.brand}" cssClass="form-control"/>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="color" class="col-sm-2 col-form-label">Color</label>
-                            <div class="col-sm-10">
-                                <form:input path="color" type="text" name="color"
-                                            value="${productDto.color}" cssClass="form-control"/>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="weight" class="col-sm-2 col-form-label">Weight</label>
-                            <div class="col-sm-10">
-                                <form:input path="weight" name="weight" value="${productDto.weight}" min="1" max="99999"
-                                            pattern="^[0-9]+$" cssClass="form-control"/>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="height" class="col-sm-2 col-form-label">Height</label>
-                            <div class="col-sm-10">
-                                <form:input path="height" name="height" value="${productDto.height}" min="0" max="9999"
-                                            pattern="^[0-9]+$" cssClass="form-control"/>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="width" class="col-sm-2 col-form-label">Width</label>
-                            <div class="col-sm-10">
-                                <form:input path="width" name="width" value="${productDto.width}" min="0" max="9999"
-                                            pattern="^[0-9]+$" cssClass="form-control"/>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="depth" class="col-sm-2 col-form-label">Depth</label>
-                            <div class="col-sm-10">
-                                <form:input path="depth" name="depth" value="${productDto.depth}" min="0" max="9999"
-                                            pattern="^[0-9]+$" cssClass="form-control"/>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="upc" class="col-sm-2 col-form-label">UPC</label>
-                            <div class="col-sm-10">
-                                <form:input path="upc" name="upc" value="${productDto.upc}" min="1" max="999999999999"
-                                            pattern="^[0-9]+$" cssClass="form-control"/>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="inStock" class="col-sm-2 col-form-label">Quantity</label>
-                            <div class="col-sm-10">
-                                <form:input path="inStock" name="inStock" value="${productDto.inStock}" min="1"
-                                            max="999" pattern="^[0-9]+$" cssClass="form-control"/>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="price" class="col-sm-2 col-form-label">Price</label>
-                            <div class="col-sm-10">
-                                <form:input path="price" name="price" value="${productDto.price}" min="1" max="9999"
-                                            pattern="^[0-9]+$" cssClass="form-control"/>
+                                <button type="submit" class="btn btn-danger btn-lg">Delete</button>
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-sm-10">
-                                <form:input path="deleted" type="hidden" name="deleted"
-                                            value="${productDto.deleted}" cssClass="form-control"/>
+                                <form:input path="id" type="hidden" name="id"
+                                            value="${addressDto.id}" cssClass="form-control"/>
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-sm-10">
-                                <button type="submit" class="btn btn-warning btn-lg">Edit</button>
+                                <form:input path="customerDto" type="hidden" name="customerDto"
+                                            value="${addressDto.customerDto}" cssClass="form-control"/>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                                <form:input path="country" type="hidden" name="country"
+                                            value="${addressDto.country}" cssClass="form-control"/>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                                <form:input path="city" type="hidden" name="city"
+                                            value="${addressDto.city}" cssClass="form-control"/>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                                <form:input path="zipCode" type="hidden" name="zipCode"
+                                            value="${addressDto.zipCode}" cssClass="form-control"/>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                                <form:input path="street" type="hidden" name="street"
+                                            value="${addressDto.street}" cssClass="form-control"/>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                                <form:input path="building" type="hidden" name="building" value="${addressDto.building}"
+                                            min="1" max="99999" pattern="^[0-9]+$" cssClass="form-control"/>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                                <form:input path="apartment" type="hidden" name="apartment" value="${addressDto.apartment}"
+                                            min="1" max="99999" pattern="^[0-9]+$" cssClass="form-control"/>
                             </div>
                         </div>
                     </form>

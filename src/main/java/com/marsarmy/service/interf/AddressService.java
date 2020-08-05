@@ -10,9 +10,13 @@ public interface AddressService {
 
     void update(Address address);
 
+    void delete(Address address);
+
     List<Address> getAll();
 
     Address getOne(long id);
 
-    Address getByCustomerId(long customerId);
+    List<Address> getByCustomerId(long customerId);
+
+    List<Address> getByCustomerEmail(String email);
 }

@@ -26,6 +26,8 @@ public class AddressConverter {
         addressDto.setCustomerDto(address.getCustomer().getEmail());
         addressDto.setCountry(address.getCountry());
         addressDto.setCity(address.getCity());
+        addressDto.setZipCode(address.getZipCode());
+        addressDto.setStreet(address.getStreet());
         addressDto.setBuilding(address.getBuilding());
         addressDto.setApartment(address.getApartment());
 
@@ -35,10 +37,15 @@ public class AddressConverter {
     public Address convertToEntity(AddressDto addressDto) {
         Address address = new Address();
 
-        address.setId(addressDto.getId());
+        if (addressDto.getId() != null) {
+            address.setId(addressDto.getId());
+        }
+
         address.setCustomer(customerService.getOne(addressDto.getCustomerDto()));
         address.setCountry(addressDto.getCountry());
         address.setCity(addressDto.getCity());
+        address.setZipCode(addressDto.getZipCode());
+        address.setStreet(addressDto.getStreet());
         address.setBuilding(addressDto.getBuilding());
         address.setApartment(addressDto.getApartment());
 

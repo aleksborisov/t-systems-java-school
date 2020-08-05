@@ -5,6 +5,8 @@ import com.marsarmy.model.Customer;
 import com.marsarmy.service.interf.CustomerService;
 import com.marsarmy.service.interf.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,6 +41,12 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     @Transactional
     public void update(Customer customer) {
+        Customer oldCustomer = getCurrentUser();
+        customer.setId(oldCustomer.getId());
+        customer.setPassword(bCryptPasswordEncoder.encode(customer.getPassword()));
+        customer.setRoles(oldCustomer.getRoles());
+        customer.setAddresses(oldCustomer.getAddresses());
+        customer.setOrders(oldCustomer.getOrders());
         customerDao.update(customer);
     }
 
@@ -50,5 +58,11 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Customer getOne(String email) {
         return customerDao.getOne(email);
+    }
+
+    @Override
+    public Customer getCurrentUser() {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return customerDao.getOne(userDetails.getUsername());
     }
 }

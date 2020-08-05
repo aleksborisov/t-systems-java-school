@@ -13,4 +13,6 @@ public interface CustomerService {
     List<Customer> getAll();
 
     Customer getOne(String email);
+
+    Customer getCurrentUser();
 }

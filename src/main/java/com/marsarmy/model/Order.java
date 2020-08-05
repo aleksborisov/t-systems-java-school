@@ -9,8 +9,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -18,20 +25,16 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Order {
+public class Order implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id")
     private long id;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
-
-    @ManyToOne
-    @JoinColumn(name = "address_id")
-    private Address address;
 
     @Column(name = "payment_method_id", nullable = false)
     @Enumerated(EnumType.ORDINAL)
@@ -48,6 +51,20 @@ public class Order {
     @Column(name = "order_status_id", nullable = false)
     @Enumerated(EnumType.ORDINAL)
     private OrderStatus orderStatus;
+
+    @Column(name = "address", nullable = false)
+    @NotBlank
+    @Size(min = 6, max = 255)
+    private String address;
+
+    @Column(name = "total", nullable = false)
+    @Min(0)
+    private int total;
+
+    @Column(name = "date_of_sale", nullable = false)
+    @NotNull
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate dateOfSale;
 
     @OneToMany(mappedBy = "order",
             cascade = CascadeType.ALL)

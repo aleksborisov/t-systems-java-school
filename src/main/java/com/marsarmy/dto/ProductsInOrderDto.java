@@ -10,7 +10,7 @@ import lombok.Setter;
 public class ProductsInOrderDto {
 
     private Long id;
-    private Long productDto;
+    private ProductDto productDto;
     private Long orderDto;
     private Integer numberOfProducts;
 }

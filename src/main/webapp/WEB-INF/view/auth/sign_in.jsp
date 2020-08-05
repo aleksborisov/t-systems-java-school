@@ -74,7 +74,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-5">
-                <h1>Sign in to Your Account</h1>
+                <h1>Sign in to your account</h1>
                 <form method="post" action="${pageContext.request.contextPath}/login/process">
                     <div class="form-group row">
                         <label for="email" class="col-sm-2 col-form-label">Email</label>

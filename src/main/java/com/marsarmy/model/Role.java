@@ -6,6 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
@@ -14,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Role implements GrantedAuthority {
+public class Role implements GrantedAuthority, Serializable {
 
     public Role(Long id) {
         this.id = id;

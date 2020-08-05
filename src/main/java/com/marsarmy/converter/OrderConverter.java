@@ -8,7 +8,6 @@ import com.marsarmy.model.enumeration.DeliveryMethod;
 import com.marsarmy.model.enumeration.OrderStatus;
 import com.marsarmy.model.enumeration.PaymentMethod;
 import com.marsarmy.model.enumeration.PaymentStatus;
-import com.marsarmy.service.interf.AddressService;
 import com.marsarmy.service.interf.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,14 +18,11 @@ import java.util.List;
 @Component
 public class OrderConverter {
 
-    private final AddressService addressService;
     private final CustomerService customerService;
     private final ProductsInOrderConverter productsInOrderConverter;
 
     @Autowired
-    public OrderConverter(AddressService addressService, CustomerService customerService,
-                          ProductsInOrderConverter productsInOrderConverter) {
-        this.addressService = addressService;
+    public OrderConverter(CustomerService customerService, ProductsInOrderConverter productsInOrderConverter) {
         this.customerService = customerService;
         this.productsInOrderConverter = productsInOrderConverter;
     }
@@ -36,12 +32,13 @@ public class OrderConverter {
 
         orderDto.setId(order.getId());
         orderDto.setCustomerDto(order.getCustomer().getEmail());
-        orderDto.setAddressDto(order.getAddress().getCustomer().getId());
         orderDto.setPaymentMethod(order.getPaymentMethod().name());
         orderDto.setDeliveryMethod(order.getDeliveryMethod().name());
         orderDto.setPaymentStatus(order.getPaymentStatus().name());
         orderDto.setOrderStatus(order.getOrderStatus().name());
-
+        orderDto.setAddress(order.getAddress());
+        orderDto.setTotal(order.getTotal());
+        orderDto.setDateOfSale(order.getDateOfSale());
         List<ProductsInOrderDto> productsInOrdersDto = new ArrayList<>();
         for (ProductsInOrder productsInOrder : order.getProductsInOrders()) {
             productsInOrdersDto.add(productsInOrderConverter.convertToDto(productsInOrder));
@@ -56,11 +53,13 @@ public class OrderConverter {
 
         order.setId(order.getId());
         order.setCustomer(customerService.getOne(orderDto.getCustomerDto()));
-        order.setAddress(addressService.getByCustomerId(orderDto.getAddressDto()));
         order.setPaymentMethod(PaymentMethod.valueOf(orderDto.getPaymentMethod()));
         order.setDeliveryMethod(DeliveryMethod.valueOf(orderDto.getDeliveryMethod()));
         order.setPaymentStatus(PaymentStatus.valueOf(orderDto.getPaymentStatus()));
         order.setOrderStatus(OrderStatus.valueOf(orderDto.getOrderStatus()));
+        order.setAddress(orderDto.getAddress());
+        order.setTotal(orderDto.getTotal());
+        order.setDateOfSale(orderDto.getDateOfSale());
 
         List<ProductsInOrder> productsInOrders = new ArrayList<>();
         for (ProductsInOrderDto productsInOrderDto : orderDto.getProductsInOrdersDto()) {

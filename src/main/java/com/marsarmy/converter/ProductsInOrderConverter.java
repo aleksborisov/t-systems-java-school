@@ -15,18 +15,21 @@ public class ProductsInOrderConverter {
 
     private final OrderService orderService;
     private final ProductService productService;
+    private final ProductConverter productConverter;
 
     @Autowired
-    public ProductsInOrderConverter(OrderService orderService, ProductService productService) {
+    public ProductsInOrderConverter(OrderService orderService, ProductService productService,
+                                    ProductConverter productConverter) {
         this.orderService = orderService;
         this.productService = productService;
+        this.productConverter = productConverter;
     }
 
     public ProductsInOrderDto convertToDto(ProductsInOrder productsInOrder) {
         ProductsInOrderDto productsInOrderDto = new ProductsInOrderDto();
 
         productsInOrderDto.setId(productsInOrder.getId());
-        productsInOrderDto.setProductDto(productsInOrder.getProduct().getUpc());
+        productsInOrderDto.setProductDto(productConverter.convertToDto(productsInOrder.getProduct()));
         productsInOrderDto.setOrderDto(productsInOrder.getOrder().getId());
         productsInOrderDto.setNumberOfProducts(productsInOrder.getNumberOfProducts());
 
@@ -37,8 +40,8 @@ public class ProductsInOrderConverter {
         ProductsInOrder productsInOrder = new ProductsInOrder();
 
         productsInOrder.setId(productsInOrder.getId());
-        productsInOrder.setProduct(productService.getOne(productsInOrderDto.getProductDto()));
-        productsInOrder.setOrder(orderService.getOne(productsInOrderDto.getOrderDto()));
+        productsInOrder.setProduct(productService.getOne(productsInOrderDto.getProductDto().getUpc()));
+        productsInOrder.setOrder(orderService.getOne(productsInOrderDto.getId()));
         productsInOrder.setNumberOfProducts(productsInOrder.getNumberOfProducts());
 
         return productsInOrder;

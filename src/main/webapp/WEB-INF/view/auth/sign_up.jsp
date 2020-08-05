@@ -73,7 +73,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-6">
-                <h1>Create Account</h1>
+                <h1>Create account</h1>
                 <form:form method="post" action="/sign_up" modelAttribute="customerDto">
                     <form>
                         <div class="form-group row">
