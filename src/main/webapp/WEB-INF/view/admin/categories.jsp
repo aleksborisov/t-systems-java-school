@@ -1,8 +1,9 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="core" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>Admin</title>
+    <title>Categories</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -71,16 +72,17 @@
 <article>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-3">
-                <h1>Admin panel</h1>
-                <a class="btn btn-primary btn-lg btn-block" href="${pageContext.request.contextPath}/admin/orders"
-                   role="button">Orders</a>
-                <a class="btn btn-primary btn-lg btn-block" href="${pageContext.request.contextPath}/admin/create_product"
-                   role="button">Create new product</a>
-                <a class="btn btn-primary btn-lg btn-block" href="${pageContext.request.contextPath}/admin/categories"
-                   role="button">Categories</a>
-                <a class="btn btn-primary btn-lg btn-block" href="${pageContext.request.contextPath}/admin/statistics"
-                   role="button">Statistics</a>
+            <div class="col-6">
+                <h1>Categories</h1>
+                <a href="${pageContext.request.contextPath}/admin/create_category"
+                   class="btn btn-primary">Create</a>
+                <core:forEach items="${categoriesDto}" var="category">
+                    <p><h5>${category.name}</h5>
+                    <a href="${pageContext.request.contextPath}/admin/edit_category?id=${category.id}"
+                       class="btn btn-warning btn-sm">Edit</a>
+                    <a href="${pageContext.request.contextPath}/admin/delete_category?id=${category.id}"
+                       class="btn btn-danger btn-sm">Delete</a>
+                </core:forEach>
             </div>
         </div>
     </div>

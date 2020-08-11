@@ -1,8 +1,9 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ page contentType="text/html;charset=UTF-8"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
-    <title>Admin</title>
+    <title>Delete category</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -71,16 +72,29 @@
 <article>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-3">
-                <h1>Admin panel</h1>
-                <a class="btn btn-primary btn-lg btn-block" href="${pageContext.request.contextPath}/admin/orders"
-                   role="button">Orders</a>
-                <a class="btn btn-primary btn-lg btn-block" href="${pageContext.request.contextPath}/admin/create_product"
-                   role="button">Create new product</a>
-                <a class="btn btn-primary btn-lg btn-block" href="${pageContext.request.contextPath}/admin/categories"
-                   role="button">Categories</a>
-                <a class="btn btn-primary btn-lg btn-block" href="${pageContext.request.contextPath}/admin/statistics"
-                   role="button">Statistics</a>
+            <div class="col-5">
+                <h1>Are you sure you want to remove this category?</h1>
+                <form:form method="post" action="/admin/delete_category" modelAttribute="categoryDto">
+                    <form>
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                                <button type="submit" class="btn btn-danger btn-lg">Delete</button>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                                <form:input path="name" type="hidden" name="name"
+                                            value="${categoryDto.name}" cssClass="form-control"/>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                                <form:input path="id" type="hidden" name="id" min="1" max="999999999999"
+                                            value="${categoryDto.id}" pattern="^[0-9]+$" cssClass="form-control"/>
+                            </div>
+                        </div>
+                    </form>
+                </form:form>
             </div>
         </div>
     </div>

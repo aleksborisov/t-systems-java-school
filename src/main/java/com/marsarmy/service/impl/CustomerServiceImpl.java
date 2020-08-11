@@ -1,6 +1,7 @@
 package com.marsarmy.service.impl;
 
 import com.marsarmy.dao.interf.CustomerDao;
+import com.marsarmy.dto.CustomerStatisticsDto;
 import com.marsarmy.model.Customer;
 import com.marsarmy.service.interf.CustomerService;
 import com.marsarmy.service.interf.RoleService;
@@ -64,5 +65,10 @@ public class CustomerServiceImpl implements CustomerService {
     public Customer getCurrentUser() {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return customerDao.getOne(userDetails.getUsername());
+    }
+
+    @Override
+    public List<CustomerStatisticsDto> getTopTenCustomers() {
+        return customerDao.getTopTenCustomers();
     }
 }

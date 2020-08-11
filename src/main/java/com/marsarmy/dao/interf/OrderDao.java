@@ -2,6 +2,7 @@ package com.marsarmy.dao.interf;
 
 import com.marsarmy.model.Order;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface OrderDao {
@@ -15,4 +16,8 @@ public interface OrderDao {
     Order getOne(long id);
 
     List<Order> getByCustomer(long customerId);
+
+    BigDecimal getLastWeekIncome();
+
+    BigDecimal getLastMonthIncome();
 }

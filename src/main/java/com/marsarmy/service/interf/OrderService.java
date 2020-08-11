@@ -2,6 +2,7 @@ package com.marsarmy.service.interf;
 
 import com.marsarmy.model.Order;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface OrderService {
@@ -15,4 +16,8 @@ public interface OrderService {
     Order getOne(long id);
 
     List<Order> getByCustomer(long customerId);
+
+    BigDecimal getLastWeekIncome();
+
+    BigDecimal getLastMonthIncome();
 }

@@ -22,7 +22,10 @@ public class CategoryConverter {
     public Category convertToEntity(CategoryDto categoryDto) {
         Category category = new Category();
 
-        category.setId(categoryDto.getId());
+        if (categoryDto.getId() != null) {
+            category.setId(categoryDto.getId());
+        }
+
         category.setName(categoryDto.getName());
 
         return category;

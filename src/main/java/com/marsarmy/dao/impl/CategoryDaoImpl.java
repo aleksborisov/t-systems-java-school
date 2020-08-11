@@ -27,7 +27,9 @@ public class CategoryDaoImpl implements CategoryDao {
 
     @Override
     public void delete(Category category) {
-        entityManager.remove(category);
+        entityManager.createQuery("delete from Category where id = :id")
+                .setParameter("id", category.getId())
+                .executeUpdate();
     }
 
     @Override

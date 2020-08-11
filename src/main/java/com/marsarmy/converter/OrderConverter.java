@@ -9,6 +9,7 @@ import com.marsarmy.model.enumeration.OrderStatus;
 import com.marsarmy.model.enumeration.PaymentMethod;
 import com.marsarmy.model.enumeration.PaymentStatus;
 import com.marsarmy.service.interf.CustomerService;
+import com.marsarmy.service.interf.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,11 +20,14 @@ import java.util.List;
 public class OrderConverter {
 
     private final CustomerService customerService;
+    private final OrderService orderService;
     private final ProductsInOrderConverter productsInOrderConverter;
 
     @Autowired
-    public OrderConverter(CustomerService customerService, ProductsInOrderConverter productsInOrderConverter) {
+    public OrderConverter(CustomerService customerService, OrderService orderService,
+                          ProductsInOrderConverter productsInOrderConverter) {
         this.customerService = customerService;
+        this.orderService = orderService;
         this.productsInOrderConverter = productsInOrderConverter;
     }
 
@@ -39,6 +43,7 @@ public class OrderConverter {
         orderDto.setAddress(order.getAddress());
         orderDto.setTotal(order.getTotal());
         orderDto.setDateOfSale(order.getDateOfSale());
+
         List<ProductsInOrderDto> productsInOrdersDto = new ArrayList<>();
         for (ProductsInOrder productsInOrder : order.getProductsInOrders()) {
             productsInOrdersDto.add(productsInOrderConverter.convertToDto(productsInOrder));
@@ -51,7 +56,7 @@ public class OrderConverter {
     public Order convertToEntity(OrderDto orderDto) {
         Order order = new Order();
 
-        order.setId(order.getId());
+        order.setId(orderDto.getId());
         order.setCustomer(customerService.getOne(orderDto.getCustomerDto()));
         order.setPaymentMethod(PaymentMethod.valueOf(orderDto.getPaymentMethod()));
         order.setDeliveryMethod(DeliveryMethod.valueOf(orderDto.getDeliveryMethod()));
@@ -61,11 +66,20 @@ public class OrderConverter {
         order.setTotal(orderDto.getTotal());
         order.setDateOfSale(orderDto.getDateOfSale());
 
-        List<ProductsInOrder> productsInOrders = new ArrayList<>();
-        for (ProductsInOrderDto productsInOrderDto : orderDto.getProductsInOrdersDto()) {
-            productsInOrders.add(productsInOrderConverter.convertToEntity(productsInOrderDto));
+        if (orderDto.getProductsInOrdersDto() == null) {
+            Order orderInDb = orderService.getOne(orderDto.getId());
+            if (orderInDb == null) {
+                order.setProductsInOrders(new ArrayList<>());
+            } else {
+                order.setProductsInOrders(orderInDb.getProductsInOrders());
+            }
+        } else {
+            List<ProductsInOrder> productsInOrders = new ArrayList<>();
+            for (ProductsInOrderDto productsInOrderDto : orderDto.getProductsInOrdersDto()) {
+                productsInOrders.add(productsInOrderConverter.convertToEntity(productsInOrderDto));
+            }
+            order.setProductsInOrders(productsInOrders);
         }
-        order.setProductsInOrders(productsInOrders);
 
         return order;
     }

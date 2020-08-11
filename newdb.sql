@@ -403,13 +403,16 @@ VALUES (3, 1);
 -- -----------------------------------------------------
 INSERT INTO mars_army_store.orders (customer_id, payment_method_id, delivery_method_id, payment_status_id,
                                     order_status_id, address, total, date_of_sale)
-VALUES (3, 0, 0, 0, 0, '1 Ilinka Street 23, Moscow, Russia, 103132', 99, '2020-08-01');
+VALUES (3, 0, 0, 0, 0, '1 Ilinka Street 23, Moscow, Russia, 103132', 930, '2020-08-01');
 INSERT INTO mars_army_store.orders (customer_id, payment_method_id, delivery_method_id, payment_status_id,
                                     order_status_id, address, total, date_of_sale)
-VALUES (3, 1, 1, 1, 1, '1 Piazza del Colosseo 1, Roma, Italy, 00184', 741, '2020-08-03');
+VALUES (3, 1, 1, 1, 1, '1 Piazza del Colosseo 1, Roma, Italy, 00184', 289, '2020-08-03');
 INSERT INTO mars_army_store.orders (customer_id, payment_method_id, delivery_method_id, payment_status_id,
                                     order_status_id, address, total, date_of_sale)
-VALUES (3, 0, 1, 1, 2, '5 Rue de le Hotel de ville 7, Nice, France, 06364', 456, '2020-08-04');
+VALUES (3, 0, 1, 1, 2, '5 Rue de le Hotel de ville 7, Nice, France, 06364', 451, '2020-08-04');
+INSERT INTO mars_army_store.orders (customer_id, payment_method_id, delivery_method_id, payment_status_id,
+                                    order_status_id, address, total, date_of_sale)
+VALUES (2, 1, 0, 1, 3, '3 Carrer Mallorca 401, Barcelona, Spain, 08013', 294, '2020-08-10');
 
 -- -----------------------------------------------------
 -- Fill table `mars_army_store`.`products_in_orders`
@@ -421,14 +424,24 @@ VALUES (766871499069, 1, 7);
 INSERT INTO mars_army_store.products_in_orders (product_upc, order_id, number_of_products)
 VALUES (766871496891, 1, 3);
 INSERT INTO mars_army_store.products_in_orders (product_upc, order_id, number_of_products)
+VALUES (766871500345, 1, 3);
+INSERT INTO mars_army_store.products_in_orders (product_upc, order_id, number_of_products)
 VALUES (766871498864, 2, 2);
 INSERT INTO mars_army_store.products_in_orders (product_upc, order_id, number_of_products)
 VALUES (766871497072, 2, 8);
 INSERT INTO mars_army_store.products_in_orders (product_upc, order_id, number_of_products)
 VALUES (766871498130, 2, 1);
 INSERT INTO mars_army_store.products_in_orders (product_upc, order_id, number_of_products)
+VALUES (766871500345, 2, 4);
+INSERT INTO mars_army_store.products_in_orders (product_upc, order_id, number_of_products)
 VALUES (766871498659, 3, 4);
 INSERT INTO mars_army_store.products_in_orders (product_upc, order_id, number_of_products)
 VALUES (766871498376, 3, 6);
 INSERT INTO mars_army_store.products_in_orders (product_upc, order_id, number_of_products)
 VALUES (766871498086, 3, 9);
+INSERT INTO mars_army_store.products_in_orders (product_upc, order_id, number_of_products)
+VALUES (766871500345, 3, 5);
+INSERT INTO mars_army_store.products_in_orders (product_upc, order_id, number_of_products)
+VALUES (766871500345, 7, 6);
+INSERT INTO mars_army_store.products_in_orders (product_upc, order_id, number_of_products)
+VALUES (766871498499, 7, 10);

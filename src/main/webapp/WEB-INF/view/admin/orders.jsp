@@ -1,8 +1,9 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="core" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>Admin</title>
+    <title>Orders</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -70,17 +71,47 @@
 </header>
 <article>
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-3">
-                <h1>Admin panel</h1>
-                <a class="btn btn-primary btn-lg btn-block" href="${pageContext.request.contextPath}/admin/orders"
-                   role="button">Orders</a>
-                <a class="btn btn-primary btn-lg btn-block" href="${pageContext.request.contextPath}/admin/create_product"
-                   role="button">Create new product</a>
-                <a class="btn btn-primary btn-lg btn-block" href="${pageContext.request.contextPath}/admin/categories"
-                   role="button">Categories</a>
-                <a class="btn btn-primary btn-lg btn-block" href="${pageContext.request.contextPath}/admin/statistics"
-                   role="button">Statistics</a>
+        <div class="row">
+            <div class="col">
+                <p>
+                <h1>Orders</h1>
+                <ul>
+                    <core:forEach items="${ordersDto}" var="order">
+                        <li>
+                            <p><h6>Purchase date: ${order.dateOfSale.format(formatter)}, customer: ${order.customerDto},
+                            address: ${order.address}, total: $${order.total}, payment method: ${order.paymentMethod},
+                            delivery method: ${order.deliveryMethod}, payment status: ${order.paymentStatus},
+                            order status: ${order.orderStatus}</h6>
+                            <div><a href="${pageContext.request.contextPath}/admin/change_order_status?id=${order.id}"
+                                    class="btn btn-warning">Change status</a></div>
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Color</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Quantity</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <%! int i = 1; %>
+                                <core:forEach items="${order.productsInOrdersDto}" var="productInOrder">
+                                    <tr>
+                                        <th scope="row"><%=i++%>
+                                        </th>
+                                        <td>${productInOrder.productDto.name}</td>
+                                        <td>${productInOrder.productDto.color}</td>
+                                        <td>$${productInOrder.productDto.price}</td>
+                                        <td>${productInOrder.numberOfProducts}</td>
+                                    </tr>
+                                </core:forEach>
+                                <% i = 1; %>
+                                </tbody>
+                            </table>
+                        </li>
+                    </core:forEach>
+                </ul>
             </div>
         </div>
     </div>

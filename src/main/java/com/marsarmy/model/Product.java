@@ -74,4 +74,10 @@ public class Product implements Serializable {
             cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<ProductsInOrder> productsInOrders;
+
+    @Override
+    public String toString() {
+        return upc+" "+category.getName()+" "+name+" "+price+" "+brand+" "+color+" "+weight+" "+height+" "+width+" "
+                +depth+" "+inStock+" "+deleted+" "+productsInOrders.size();
+    }
 }

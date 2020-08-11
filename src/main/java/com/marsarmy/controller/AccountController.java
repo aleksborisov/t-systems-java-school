@@ -3,6 +3,7 @@ package com.marsarmy.controller;
 import com.marsarmy.converter.AddressConverter;
 import com.marsarmy.converter.CustomerConverter;
 import com.marsarmy.converter.OrderConverter;
+import com.marsarmy.dto.AddressDto;
 import com.marsarmy.dto.CustomerDto;
 import com.marsarmy.model.Customer;
 import com.marsarmy.service.interf.AddressService;
@@ -16,10 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.format.DateTimeFormatter;
@@ -75,6 +73,43 @@ public class AccountController {
     public String editAccount(@ModelAttribute("customerDto") CustomerDto customerDto, HttpServletRequest request) {
         customerService.update(customerConverter.convertToEntity(customerDto));
         authenticateUserAndSetSession(customerConverter.convertToEntity(customerDto), request);
+        return "redirect:/account/account";
+    }
+
+    @GetMapping("/create_address")
+    public String getCreateAddress(Model model) {
+        model.addAttribute("addressDto", new AddressDto());
+        model.addAttribute("customerDto", customerConverter.convertToDto(customerService.getCurrentUser()));
+        return "account/create_address";
+    }
+
+    @PostMapping("/create_address")
+    public String createAddress(@ModelAttribute("addressDto") AddressDto addressDto) {
+        addressService.create(addressConverter.convertToEntity(addressDto));
+        return "redirect:/account/account";
+    }
+
+    @GetMapping("/edit_address")
+    public String getEditAddress(Model model, @RequestParam Long id) {
+        model.addAttribute("addressDto", addressConverter.convertToDto(addressService.getOne(id)));
+        return "account/edit_address";
+    }
+
+    @PostMapping("/edit_address")
+    public String editAddress(@ModelAttribute("addressDto") AddressDto addressDto) {
+        addressService.update(addressConverter.convertToEntity(addressDto));
+        return "redirect:/account/account";
+    }
+
+    @GetMapping("/delete_address")
+    public String getDeleteAddress(Model model, @RequestParam Long id) {
+        model.addAttribute("addressDto", addressConverter.convertToDto(addressService.getOne(id)));
+        return "account/delete_address";
+    }
+
+    @PostMapping("/delete_address")
+    public String deleteAddress(@ModelAttribute("addressDto") AddressDto addressDto) {
+        addressService.delete(addressConverter.convertToEntity(addressDto));
         return "redirect:/account/account";
     }
 

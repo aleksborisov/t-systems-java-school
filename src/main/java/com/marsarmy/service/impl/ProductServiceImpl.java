@@ -1,6 +1,7 @@
 package com.marsarmy.service.impl;
 
 import com.marsarmy.dao.interf.ProductDao;
+import com.marsarmy.dto.ProductStatisticsDto;
 import com.marsarmy.model.Product;
 import com.marsarmy.service.interf.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,12 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     public ProductServiceImpl(ProductDao productDao) {
         this.productDao = productDao;
+    }
+
+    @Override
+    @Transactional
+    public void create(Product product) {
+        productDao.create(product);
     }
 
     @Override
@@ -41,5 +48,10 @@ public class ProductServiceImpl implements ProductService {
                                 int maxPrice, String brand, String color) {
 
         return productDao.filter(category, name, minPrice, maxPrice, brand, color);
+    }
+
+    @Override
+    public List<ProductStatisticsDto> getTopTenProducts() {
+        return productDao.getTopTenProducts();
     }
 }

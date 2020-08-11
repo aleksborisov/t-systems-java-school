@@ -30,8 +30,7 @@ public class Category implements Serializable {
     private String name;
 
     @OneToMany(mappedBy = "category",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true)
+            cascade = CascadeType.ALL   )
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Product> products;
 }

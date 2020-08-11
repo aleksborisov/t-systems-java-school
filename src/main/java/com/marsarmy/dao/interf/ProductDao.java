@@ -1,5 +1,6 @@
 package com.marsarmy.dao.interf;
 
+import com.marsarmy.dto.ProductStatisticsDto;
 import com.marsarmy.model.Product;
 
 import java.util.List;
@@ -16,4 +17,6 @@ public interface ProductDao {
 
     List<Product> filter(String category, String name, int minPrice,
                          int maxPrice, String brand, String color);
+
+    List<ProductStatisticsDto> getTopTenProducts();
 }

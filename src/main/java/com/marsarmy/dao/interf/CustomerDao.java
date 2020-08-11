@@ -1,5 +1,7 @@
 package com.marsarmy.dao.interf;
 
+import com.marsarmy.dto.CustomerStatisticsDto;
+import com.marsarmy.dto.ProductStatisticsDto;
 import com.marsarmy.model.Customer;
 
 import java.util.List;
@@ -13,4 +15,6 @@ public interface CustomerDao {
     List<Customer> getAll();
 
     Customer getOne(String email);
+
+    List<CustomerStatisticsDto> getTopTenCustomers();
 }

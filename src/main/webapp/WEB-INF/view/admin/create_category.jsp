@@ -1,8 +1,9 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ page contentType="text/html;charset=UTF-8"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
-    <title>Admin</title>
+    <title>Create category</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -71,16 +72,29 @@
 <article>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-3">
-                <h1>Admin panel</h1>
-                <a class="btn btn-primary btn-lg btn-block" href="${pageContext.request.contextPath}/admin/orders"
-                   role="button">Orders</a>
-                <a class="btn btn-primary btn-lg btn-block" href="${pageContext.request.contextPath}/admin/create_product"
-                   role="button">Create new product</a>
-                <a class="btn btn-primary btn-lg btn-block" href="${pageContext.request.contextPath}/admin/categories"
-                   role="button">Categories</a>
-                <a class="btn btn-primary btn-lg btn-block" href="${pageContext.request.contextPath}/admin/statistics"
-                   role="button">Statistics</a>
+            <div class="col-5">
+                <h1>Creating new category</h1>
+                <form:form method="post" action="/admin/create_category" modelAttribute="categoryDto">
+                    <form>
+                        <div class="form-group row">
+                            <label for="name" class="col-sm-2 col-form-label">Name</label>
+                            <div class="col-sm-10">
+                                <form:input path="name" type="text" name="name" cssClass="form-control"/>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                                <button type="submit" class="btn btn-primary btn-lg">Create</button>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                                <form:input path="id" type="hidden" name="id" min="1" max="999999999999"
+                                            pattern="^[0-9]+$" cssClass="form-control"/>
+                            </div>
+                        </div>
+                    </form>
+                </form:form>
             </div>
         </div>
     </div>

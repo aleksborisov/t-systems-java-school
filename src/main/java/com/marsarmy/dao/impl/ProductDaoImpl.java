@@ -1,12 +1,15 @@
 package com.marsarmy.dao.impl;
 
 import com.marsarmy.dao.interf.ProductDao;
+import com.marsarmy.dto.ProductStatisticsDto;
 import com.marsarmy.model.Product;
+import com.marsarmy.model.enumeration.PaymentStatus;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -76,5 +79,42 @@ public class ProductDaoImpl implements ProductDao {
                 .setParameter("minPrice", minPrice)
                 .setParameter("maxPrice", maxPrice)
                 .getResultList();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<ProductStatisticsDto> getTopTenProducts() {
+        List<Object[]> result = entityManager.createQuery("select p.upc, p.name, p.color, p.brand, p.category.name, p.price," +
+                " sum (po.numberOfProducts) as quantitySold" +
+                " from Product p" +
+                " left join ProductsInOrder po on p.upc = po.product.upc" +
+                " left join Order o on o.id = po.order.id" +
+                " where o.paymentStatus = :paymentStatus" +
+                " and p.deleted = false" +
+                " group by p.upc" +
+                " order by quantitySold desc")
+                .setParameter("paymentStatus", PaymentStatus.PAID)
+                .setMaxResults(10)
+                .getResultList();
+
+        if (result == null) {
+            return new ArrayList<>();
+        }
+
+        List<ProductStatisticsDto> productsStatisticsDto = new ArrayList<>();
+
+        for (Object[] objects : result) {
+            ProductStatisticsDto productStatisticsDto = new ProductStatisticsDto();
+            productStatisticsDto.setUpc((Long) objects[0]);
+            productStatisticsDto.setName((String) objects[1]);
+            productStatisticsDto.setColor((String) objects[2]);
+            productStatisticsDto.setBrand((String) objects[3]);
+            productStatisticsDto.setCategory((String) objects[4]);
+            productStatisticsDto.setPrice((Integer) objects[5]);
+            productStatisticsDto.setQuantitySold((Long) objects[6]);
+            productsStatisticsDto.add(productStatisticsDto);
+        }
+
+        return productsStatisticsDto;
     }
 }

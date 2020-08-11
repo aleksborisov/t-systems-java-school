@@ -1,5 +1,6 @@
 package com.marsarmy.service.interf;
 
+import com.marsarmy.dto.CustomerStatisticsDto;
 import com.marsarmy.model.Customer;
 
 import java.util.List;
@@ -15,4 +16,6 @@ public interface CustomerService {
     Customer getOne(String email);
 
     Customer getCurrentUser();
+
+    List<CustomerStatisticsDto> getTopTenCustomers();
 }
