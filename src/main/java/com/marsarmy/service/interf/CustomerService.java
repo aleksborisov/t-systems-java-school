@@ -1,6 +1,6 @@
 package com.marsarmy.service.interf;
 
-import com.marsarmy.dto.CustomerStatisticsDto;
+import com.marsarmy.statistics.CustomerStatistics;
 import com.marsarmy.model.Customer;
 
 import java.util.List;
@@ -17,5 +17,5 @@ public interface CustomerService {
 
     Customer getCurrentUser();
 
-    List<CustomerStatisticsDto> getTopTenCustomers();
+    List<CustomerStatistics> getTopTenCustomers();
 }

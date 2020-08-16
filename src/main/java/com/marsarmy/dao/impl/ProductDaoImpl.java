@@ -1,7 +1,7 @@
 package com.marsarmy.dao.impl;
 
 import com.marsarmy.dao.interf.ProductDao;
-import com.marsarmy.dto.ProductStatisticsDto;
+import com.marsarmy.statistics.ProductStatistics;
 import com.marsarmy.model.Product;
 import com.marsarmy.model.enumeration.PaymentStatus;
 import org.springframework.stereotype.Component;
@@ -29,8 +29,20 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
+    public void flush() {
+        entityManager.flush();
+    }
+
+    @Override
     public List<Product> getAll() {
         return entityManager.createQuery("select p from Product p", Product.class).getResultList();
+    }
+
+    @Override
+    public List<Product> getByCategory(String category) {
+        return entityManager.createQuery("select p from Product p where p.category.name = :category", Product.class)
+                .setParameter("category", category)
+                .getResultList();
     }
 
     @Override
@@ -83,7 +95,7 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<ProductStatisticsDto> getTopTenProducts() {
+    public List<ProductStatistics> getTopTenProducts() {
         List<Object[]> result = entityManager.createQuery("select p.upc, p.name, p.color, p.brand, p.category.name, p.price," +
                 " sum (po.numberOfProducts) as quantitySold" +
                 " from Product p" +
@@ -101,20 +113,20 @@ public class ProductDaoImpl implements ProductDao {
             return new ArrayList<>();
         }
 
-        List<ProductStatisticsDto> productsStatisticsDto = new ArrayList<>();
+        List<ProductStatistics> productsStatistics = new ArrayList<>();
 
         for (Object[] objects : result) {
-            ProductStatisticsDto productStatisticsDto = new ProductStatisticsDto();
-            productStatisticsDto.setUpc((Long) objects[0]);
-            productStatisticsDto.setName((String) objects[1]);
-            productStatisticsDto.setColor((String) objects[2]);
-            productStatisticsDto.setBrand((String) objects[3]);
-            productStatisticsDto.setCategory((String) objects[4]);
-            productStatisticsDto.setPrice((Integer) objects[5]);
-            productStatisticsDto.setQuantitySold((Long) objects[6]);
-            productsStatisticsDto.add(productStatisticsDto);
+            ProductStatistics productStatistics = new ProductStatistics();
+            productStatistics.setUpc((Long) objects[0]);
+            productStatistics.setName((String) objects[1]);
+            productStatistics.setColor((String) objects[2]);
+            productStatistics.setBrand((String) objects[3]);
+            productStatistics.setCategory((String) objects[4]);
+            productStatistics.setPrice((Integer) objects[5]);
+            productStatistics.setQuantitySold((Long) objects[6]);
+            productsStatistics.add(productStatistics);
         }
 
-        return productsStatisticsDto;
+        return productsStatistics;
     }
 }

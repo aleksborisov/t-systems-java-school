@@ -91,7 +91,7 @@ public class AdminController {
 
     @GetMapping("/orders")
     public String getOrders(Model model) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
         model.addAttribute("formatter", formatter);
         model.addAttribute("ordersDto", orderConverter.convertToListOfDto(orderService.getAll()));
         return "admin/orders";
@@ -99,14 +99,13 @@ public class AdminController {
 
     @GetMapping("/change_order_status")
     public String getChangeOrderStatus(Model model, @RequestParam Long id) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        model.addAttribute("formatter", formatter);
         model.addAttribute("orderDto", orderConverter.convertToDto(orderService.getOne(id)));
         return "admin/change_order_status";
     }
 
     @PostMapping("/change_order_status")
     public String changeOrderStatus(@ModelAttribute OrderDto orderDto) {
+        orderDto.setDateOfSale(orderService.getOne(orderDto.getId()).getDateOfSale());
         orderService.update(orderConverter.convertToEntity(orderDto));
         return "redirect:/admin/orders";
     }

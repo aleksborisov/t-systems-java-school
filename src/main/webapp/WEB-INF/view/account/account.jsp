@@ -36,7 +36,7 @@
         <ul class="navbar-nav ml-md-auto">
             <li class="nav-item">
                 <div style="margin-right: 20px">
-                    <a class="btn btn-primary" href="#" role="button">
+                    <a class="btn btn-primary" href="${pageContext.request.contextPath}/cart/cart" role="button">
                         <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-bag" fill="currentColor"
                              xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
@@ -44,7 +44,9 @@
                                   2h10a2 2 0 0 0 2-2V4H1z"></path>
                             <path d="M8 1.5A2.5 2.5 0 0 0 5.5 4h-1a3.5 3.5 0 1 1 7 0h-1A2.5 2.5 0 0 0 8 1.5z"></path>
                         </svg>
-                        <span class="badge badge-light">0</span>
+                        <span class="badge badge-light">
+                            <core:out value="${sessionScope.cartSize}" default="0"/>
+                        </span>
                     </a>
                 </div>
             </li>
@@ -77,7 +79,7 @@
                 <h1>Account info</h1>
                 <p><h5>First name: ${customerDto.firstName}</h5>
                 <p><h5>Last name: ${customerDto.lastName}</h5>
-                <p><h5>Date of birth: ${customerDto.dateOfBirth.format(formatter)}</h5>
+                <p><h5>Date of birth: ${customerDto.dateOfBirth.format(dateFormatter)}</h5>
                 <p><h5>Email: ${customerDto.email}</h5>
                 <a href="${pageContext.request.contextPath}/account/edit_account"
                    class="btn btn-warning">Edit</a>
@@ -103,7 +105,7 @@
                 <ul>
                     <core:forEach items="${ordersDto}" var="order">
                         <li>
-                            <p><h6>Purchase date: ${order.dateOfSale.format(formatter)}, address: ${order.address},
+                            <p><h6>Purchase date: ${order.dateOfSale.format(dateTimeFormatter)}, address: ${order.address},
                             total: $${order.total}, payment method: ${order.paymentMethod},
                             delivery method: ${order.deliveryMethod}, payment status: ${order.paymentStatus},
                             order status: ${order.orderStatus}</h6>

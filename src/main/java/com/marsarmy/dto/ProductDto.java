@@ -21,4 +21,5 @@ public class ProductDto {
     private Integer depth;
     private Integer inStock;
     private Boolean deleted;
+    private String imagePath;
 }

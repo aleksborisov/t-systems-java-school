@@ -50,9 +50,11 @@ public class AccountController {
 
     @GetMapping("/account")
     public String getAccount(Model model) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
         Customer customer = customerService.getCurrentUser();
-        model.addAttribute("formatter", formatter);
+        model.addAttribute("dateFormatter", dateFormatter);
+        model.addAttribute("dateTimeFormatter", dateTimeFormatter);
         model.addAttribute("customerDto", customerConverter.convertToDto(customer));
         model.addAttribute("addressesDto", addressConverter.convertToListOfDto(
                 addressService.getByCustomerEmail(customerService.getCurrentUser().getEmail())

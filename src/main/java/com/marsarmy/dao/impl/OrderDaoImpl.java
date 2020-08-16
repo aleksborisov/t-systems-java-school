@@ -52,6 +52,16 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
+    public Order getLast(String email) {
+        TypedQuery<Order> query = entityManager.createQuery(
+                "select o from Order o where o.customer.email = :email order by o.dateOfSale desc",
+                Order.class
+        );
+        query.setParameter("email", email);
+        return query.getResultList().stream().findFirst().orElse(null);
+    }
+
+    @Override
     @SuppressWarnings("unchecked ")
     public BigDecimal getLastWeekIncome() {
         List<BigDecimal> result = entityManager.createNativeQuery("select sum(total) from orders" +

@@ -1,9 +1,9 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="core" uri="http://java.sun.com/jsp/jstl/core" %>
-<html lang="en">
+<html>
 <head>
-    <title>Mars Army Store</title>
+    <title>Out of stock</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -72,8 +72,15 @@
     </nav>
 </header>
 <article>
-    <img src="https://www.futurity.org/wp/wp-content/uploads/2018/08/Mars-against-black_1600.jpg"
-         class="img-fluid" alt="">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col text-center">
+                <h1>Not enough products in stock!</h1>
+                <a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/catalog"
+                   role="button">To catalog</a>
+            </div>
+        </div>
+    </div>
 </article>
 </body>
 </html>

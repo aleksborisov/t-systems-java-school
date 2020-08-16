@@ -37,7 +37,7 @@
         <ul class="navbar-nav ml-md-auto">
             <li class="nav-item">
                 <div style="margin-right: 20px">
-                    <a class="btn btn-primary" href="#" role="button">
+                    <a class="btn btn-primary" href="${pageContext.request.contextPath}/cart/cart" role="button">
                         <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-bag" fill="currentColor"
                              xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
@@ -45,7 +45,9 @@
                                   2h10a2 2 0 0 0 2-2V4H1z"></path>
                             <path d="M8 1.5A2.5 2.5 0 0 0 5.5 4h-1a3.5 3.5 0 1 1 7 0h-1A2.5 2.5 0 0 0 8 1.5z"></path>
                         </svg>
-                        <span class="badge badge-light">0</span>
+                        <span class="badge badge-light">
+                            <core:out value="${sessionScope.cartSize}" default="0"/>
+                        </span>
                     </a>
                 </div>
             </li>
@@ -110,8 +112,8 @@
             <core:forEach items="${products}" var="product">
                 <div class="col mt-3">
                     <div class="card text-center" style="width: 20rem;">
-                        <img src="https://i.ebayimg.com/images/g/CRUAAOSwVmNdTvTj/s-l1600.jpg" class="card-img-top"
-                             alt="">
+                        <img src="${pageContext.request.contextPath}/images/${product.imagePath}"
+                             class="card-img-top" alt="">
                         <div class="card-body">
                             <h5 class="card-title">${product.name}</h5>
                             <h6 class="card-subtitle mb-2 text-muted">${product.categoryDto}</h6>
@@ -124,7 +126,15 @@
                             <div class="card-text text-left">UPC: ${product.upc}</div>
                             <div class="card-text text-left">Quantity: ${product.inStock}</div>
                             <h5 class="card-title">$${product.price}</h5>
-                            <a href="#" class="btn btn-primary btn-lg btn-block">Buy</a>
+                            <core:if test="${product.inStock > 0}">
+                                <a href="${pageContext.request.contextPath}/cart/buy?upc=${product.upc}"
+                                   class="btn btn-primary btn-lg btn-block">Buy</a>
+                            </core:if>
+                            <core:if test="${product.inStock == 0}">
+                                <button type="button" class="btn btn-outline-primary btn-lg btn-block" disabled>
+                                    Out of stock
+                                </button>
+                            </core:if>
                             <sec:authorize access="hasRole('ADMIN')">
                                 <a href="${pageContext.request.contextPath}/admin/edit_product?upc=${product.upc}"
                                    class="btn btn-warning btn-lg btn-block">Edit</a>

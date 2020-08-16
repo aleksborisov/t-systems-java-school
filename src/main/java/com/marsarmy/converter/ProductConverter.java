@@ -35,6 +35,10 @@ public class ProductConverter {
         productDto.setInStock(product.getInStock());
         productDto.setDeleted(product.isDeleted());
 
+        if (product.getImagePath() != null) {
+            productDto.setImagePath(product.getImagePath());
+        }
+
         return productDto;
     }
 
@@ -53,6 +57,10 @@ public class ProductConverter {
         product.setDepth(productDto.getDepth());
         product.setInStock(productDto.getInStock());
         product.setDeleted(productDto.getDeleted());
+
+        if (productDto.getImagePath() != null) {
+            product.setImagePath(productDto.getImagePath());
+        }
 
         return product;
     }

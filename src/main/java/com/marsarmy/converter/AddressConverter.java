@@ -67,4 +67,12 @@ public class AddressConverter {
         }
         return addresses;
     }
+
+    public List<String> convertToListOfString(List<Address> addresses) {
+        List<String> stringAddresses = new ArrayList<>();
+        for (AddressDto addressDto : convertToListOfDto(addresses)) {
+            stringAddresses.add(addressDto.toString());
+        }
+        return stringAddresses;
+    }
 }

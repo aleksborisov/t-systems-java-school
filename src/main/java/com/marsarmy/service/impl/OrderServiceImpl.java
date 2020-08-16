@@ -49,6 +49,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public Order getLast(String email) {
+        return orderDao.getLast(email);
+    }
+
+    @Override
     public BigDecimal getLastWeekIncome() {
         return orderDao.getLastWeekIncome();
     }

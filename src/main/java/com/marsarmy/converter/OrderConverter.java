@@ -56,7 +56,10 @@ public class OrderConverter {
     public Order convertToEntity(OrderDto orderDto) {
         Order order = new Order();
 
-        order.setId(orderDto.getId());
+        if (orderDto.getId() != null) {
+            order.setId(orderDto.getId());
+        }
+
         order.setCustomer(customerService.getOne(orderDto.getCustomerDto()));
         order.setPaymentMethod(PaymentMethod.valueOf(orderDto.getPaymentMethod()));
         order.setDeliveryMethod(DeliveryMethod.valueOf(orderDto.getDeliveryMethod()));
@@ -67,18 +70,16 @@ public class OrderConverter {
         order.setDateOfSale(orderDto.getDateOfSale());
 
         if (orderDto.getProductsInOrdersDto() == null) {
-            Order orderInDb = orderService.getOne(orderDto.getId());
-            if (orderInDb == null) {
-                order.setProductsInOrders(new ArrayList<>());
-            } else {
-                order.setProductsInOrders(orderInDb.getProductsInOrders());
+            if (orderDto.getId() != null) {
+                Order orderInDb = orderService.getOne(orderDto.getId());
+                if (orderInDb == null) {
+                    order.setProductsInOrders(new ArrayList<>());
+                } else {
+                    order.setProductsInOrders(orderInDb.getProductsInOrders());
+                }
             }
         } else {
-            List<ProductsInOrder> productsInOrders = new ArrayList<>();
-            for (ProductsInOrderDto productsInOrderDto : orderDto.getProductsInOrdersDto()) {
-                productsInOrders.add(productsInOrderConverter.convertToEntity(productsInOrderDto));
-            }
-            order.setProductsInOrders(productsInOrders);
+            order.setProductsInOrders(productsInOrderConverter.convertToListOfEntity(orderDto.getProductsInOrdersDto()));
         }
 
         return order;

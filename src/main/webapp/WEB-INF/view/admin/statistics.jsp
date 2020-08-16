@@ -36,7 +36,7 @@
         <ul class="navbar-nav ml-md-auto">
             <li class="nav-item">
                 <div style="margin-right: 20px">
-                    <a class="btn btn-primary" href="#" role="button">
+                    <a class="btn btn-primary" href="${pageContext.request.contextPath}/cart/cart" role="button">
                         <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-bag" fill="currentColor"
                              xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
@@ -44,7 +44,9 @@
                                   2h10a2 2 0 0 0 2-2V4H1z"></path>
                             <path d="M8 1.5A2.5 2.5 0 0 0 5.5 4h-1a3.5 3.5 0 1 1 7 0h-1A2.5 2.5 0 0 0 8 1.5z"></path>
                         </svg>
-                        <span class="badge badge-light">0</span>
+                        <span class="badge badge-light">
+                            <core:out value="${sessionScope.cartSize}" default="0"/>
+                        </span>
                     </a>
                 </div>
             </li>
@@ -94,17 +96,17 @@
                         </thead>
                         <tbody>
                         <%! int i = 1; %>
-                        <core:forEach items="${productsStatisticsDto}" var="productStatisticsDto">
+                        <core:forEach items="${productsStatisticsDto}" var="productStatistics">
                             <tr>
                                 <th scope="row"><%=i++%>
                                 </th>
-                                <td>${productStatisticsDto.upc}</td>
-                                <td>${productStatisticsDto.name}</td>
-                                <td>${productStatisticsDto.color}</td>
-                                <td>${productStatisticsDto.brand}</td>
-                                <td>${productStatisticsDto.category}</td>
-                                <td>$${productStatisticsDto.price}</td>
-                                <td><b>${productStatisticsDto.quantitySold}</b></td>
+                                <td>${productStatistics.upc}</td>
+                                <td>${productStatistics.name}</td>
+                                <td>${productStatistics.color}</td>
+                                <td>${productStatistics.brand}</td>
+                                <td>${productStatistics.category}</td>
+                                <td>$${productStatistics.price}</td>
+                                <td><b>${productStatistics.quantitySold}</b></td>
                             </tr>
                         </core:forEach>
                         <% i = 1; %>
@@ -130,14 +132,14 @@
                         </thead>
                         <tbody>
                         <%! int j = 1; %>
-                        <core:forEach items="${customersStatisticsDto}" var="customerStatisticsDto">
+                        <core:forEach items="${customersStatisticsDto}" var="customerStatistics">
                             <tr>
                                 <th scope="row"><%=j++%>
                                 </th>
-                                <td>${customerStatisticsDto.firstName}</td>
-                                <td>${customerStatisticsDto.lastName}</td>
-                                <td>${customerStatisticsDto.email}</td>
-                                <td><b>$${customerStatisticsDto.purchasesTotal}</b></td>
+                                <td>${customerStatistics.firstName}</td>
+                                <td>${customerStatistics.lastName}</td>
+                                <td>${customerStatistics.email}</td>
+                                <td><b>$${customerStatistics.purchasesTotal}</b></td>
                             </tr>
                         </core:forEach>
                         <% j = 1; %>

@@ -1,5 +1,5 @@
-<%@ page contentType="text/html;charset=UTF-8"%>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="core" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
@@ -36,7 +36,7 @@
         <ul class="navbar-nav ml-md-auto">
             <li class="nav-item">
                 <div style="margin-right: 20px">
-                    <a class="btn btn-primary" href="#" role="button">
+                    <a class="btn btn-primary" href="${pageContext.request.contextPath}/cart/cart" role="button">
                         <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-bag" fill="currentColor"
                              xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
@@ -44,7 +44,9 @@
                                   2h10a2 2 0 0 0 2-2V4H1z"></path>
                             <path d="M8 1.5A2.5 2.5 0 0 0 5.5 4h-1a3.5 3.5 0 1 1 7 0h-1A2.5 2.5 0 0 0 8 1.5z"></path>
                         </svg>
-                        <span class="badge badge-light">0</span>
+                        <span class="badge badge-light">
+                            <core:out value="${sessionScope.cartSize}" default="0"/>
+                        </span>
                     </a>
                 </div>
             </li>
@@ -74,14 +76,16 @@
         <div class="row justify-content-center">
             <div class="col-6">
                 <h1>Categories</h1>
-                <a href="${pageContext.request.contextPath}/admin/create_category"
-                   class="btn btn-primary">Create</a>
+                <a href="${pageContext.request.contextPath}/admin/create_category" class="btn btn-primary">Create</a>
+                <p><h5>Other Equipment</h5>
                 <core:forEach items="${categoriesDto}" var="category">
-                    <p><h5>${category.name}</h5>
-                    <a href="${pageContext.request.contextPath}/admin/edit_category?id=${category.id}"
-                       class="btn btn-warning btn-sm">Edit</a>
-                    <a href="${pageContext.request.contextPath}/admin/delete_category?id=${category.id}"
-                       class="btn btn-danger btn-sm">Delete</a>
+                    <core:if test="${category.name != 'Other Equipment'}">
+                        <p><h5>${category.name}</h5>
+                        <a href="${pageContext.request.contextPath}/admin/edit_category?id=${category.id}"
+                           class="btn btn-warning btn-sm">Edit</a>
+                        <a href="${pageContext.request.contextPath}/admin/delete_category?id=${category.id}"
+                           class="btn btn-danger btn-sm">Delete</a>
+                    </core:if>
                 </core:forEach>
             </div>
         </div>

@@ -17,6 +17,8 @@ public interface OrderDao {
 
     List<Order> getByCustomer(long customerId);
 
+    Order getLast(String email);
+
     BigDecimal getLastWeekIncome();
 
     BigDecimal getLastMonthIncome();

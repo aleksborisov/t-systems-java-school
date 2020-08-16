@@ -1,7 +1,9 @@
 package com.marsarmy.service.impl;
 
 import com.marsarmy.dao.interf.CategoryDao;
+import com.marsarmy.dao.interf.ProductDao;
 import com.marsarmy.model.Category;
+import com.marsarmy.model.Product;
 import com.marsarmy.service.interf.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,10 +16,12 @@ import java.util.List;
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryDao categoryDao;
+    private final ProductDao productDao;
 
     @Autowired
-    public CategoryServiceImpl(CategoryDao categoryDao) {
+    public CategoryServiceImpl(CategoryDao categoryDao, ProductDao productDao) {
         this.categoryDao = categoryDao;
+        this.productDao = productDao;
     }
 
     @Override
@@ -35,6 +39,13 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     @Transactional
     public void delete(Category category) {
+        List<Product> products = productDao.getByCategory(category.getName());
+        for (Product product : products) {
+            product.setCategory(categoryDao.getByName("Other Equipment"));
+            productDao.update(product);
+            productDao.flush();
+        }
+
         categoryDao.delete(category);
     }
 

@@ -86,13 +86,14 @@ CREATE TABLE IF NOT EXISTS `mars_army_store`.`orders`
     `order_status_id`    BIGINT(10)   NOT NULL,
     `address`            VARCHAR(255) NOT NULL,
     `total`              INT          NOT NULL,
-    `date_of_sale`       DATE         NOT NULL,
+    `date_of_sale`       DATETIME     NOT NULL,
     PRIMARY KEY (`order_id`),
     INDEX `customer_in_order` (`customer_id` ASC) VISIBLE,
     INDEX `payment_method_in_order_idx` (`payment_method_id` ASC) VISIBLE,
     INDEX `delivery_method_in_order_idx` (`delivery_method_id` ASC) VISIBLE,
     INDEX `payment_status_in_order_idx` (`payment_status_id` ASC) VISIBLE,
     INDEX `order_status_in_order_idx` (`order_status_id` ASC) VISIBLE,
+    UNIQUE INDEX `date_of_sale_UNIQUE` (`date_of_sale` ASC) VISIBLE,
     CONSTRAINT `customer_in_order`
         FOREIGN KEY (`customer_id`)
             REFERENCES `mars_army_store`.`customers` (`customer_id`)
@@ -173,6 +174,7 @@ CREATE TABLE IF NOT EXISTS `mars_army_store`.`products`
     `depth`       INT          NOT NULL,
     `in_stock`    INT          NOT NULL,
     `deleted`     TINYINT      NOT NULL,
+    `imagePath`   VARCHAR(255) NOT NULL,
     PRIMARY KEY (`product_upc`),
     INDEX `category_in_product` (`category_id` ASC) VISIBLE,
     CONSTRAINT `category_in_product`
@@ -320,59 +322,72 @@ VALUES ('Wallets');
 -- Fill table `mars_army_store`.`products`
 -- -----------------------------------------------------
 INSERT INTO mars_army_store.products (product_upc, category_id, name, price, brand, color, weight, height, width, depth,
-                                      in_stock, deleted)
-VALUES (766871496808, 2, 'Modernized Vest 6SH117', 94, 'Techinkom', 'EMR Digital Flora', 930, 0, 0, 0, 5, false);
+                                      in_stock, deleted, imagePath)
+VALUES (766871496808, 2, 'Modernized Vest 6SH117', 94, 'Techinkom', 'EMR Digital Flora', 930, 0, 0, 0, 5, false,
+        'modernized_vest_6sh117_emr.jpg');
 
 INSERT INTO mars_army_store.products (product_upc, category_id, name, price, brand, color, weight, height, width, depth,
-                                      in_stock, deleted)
-VALUES (766871499069, 3, 'Heavy Weight Training Plate', 49, 'Techinkom', 'Black', 2600, 310, 270, 15, 10, false);
+                                      in_stock, deleted, imagePath)
+VALUES (766871499069, 3, 'Heavy Weight Training Plate', 49, 'Techinkom', 'Black', 2600, 310, 270, 15, 10, false,
+        'heavy_weight_training_plate.jpg');
 
 INSERT INTO mars_army_store.products (product_upc, category_id, name, price, brand, color, weight, height, width, depth,
-                                      in_stock, deleted)
-VALUES (766871496891, 4, 'Battle Belt Size 1', 39, 'Techinkom', 'VSR-98 Flora', 315, 110, 920, 10, 2, false);
+                                      in_stock, deleted, imagePath)
+VALUES (766871496891, 4, 'Battle Belt Size 1', 39, 'Techinkom', 'VSR-98 Flora', 315, 110, 920, 10, 2, false,
+        'battle_belt_size_1_flora.jpg');
 
 INSERT INTO mars_army_store.products (product_upc, category_id, name, price, brand, color, weight, height, width, depth,
-                                      in_stock, deleted)
-VALUES (766871498864, 5, 'Patrol Backpack 25L', 79, 'Techinkom', 'Olive', 975, 440, 480, 150, 3, false);
+                                      in_stock, deleted, imagePath)
+VALUES (766871498864, 5, 'Patrol Backpack 25L', 79, 'Techinkom', 'EMR Digital Flora', 975, 440, 480, 150, 3, false,
+        'patrol_backpack_25l_emr.jpg');
 
 INSERT INTO mars_army_store.products (product_upc, category_id, name, price, brand, color, weight, height, width, depth,
-                                      in_stock, deleted)
-VALUES (766871497072, 6, 'Pouch for 2 30rds Rifle Mags', 14, 'Techinkom', 'EMR Digital Flora', 120, 210, 75, 65, 4,
-        false);
+                                      in_stock, deleted, imagePath)
+VALUES (766871497072, 6, 'Pouch for 2 30rds Rifle Mags', 14, 'Techinkom', 'Olive', 120, 210, 75, 65, 4,
+        false, 'pouch_for_2_30rds_rifle_mags_olive.jpg');
 
 INSERT INTO mars_army_store.products (product_upc, category_id, name, price, brand, color, weight, height, width, depth,
-                                      in_stock, deleted)
-VALUES (766871498130, 6, 'Medic Pouch', 19, 'Techinkom', 'VSR-98 Flora', 150, 180, 145, 90, 6, false);
+                                      in_stock, deleted, imagePath)
+VALUES (766871498130, 6, 'Medic Pouch', 19, 'Techinkom', 'VSR-98 Flora', 150, 180, 145, 90, 6, false,
+        'medic_pouch_flora.jpg');
 
 INSERT INTO mars_army_store.products (product_upc, category_id, name, price, brand, color, weight, height, width, depth,
-                                      in_stock, deleted)
-VALUES (766871498659, 6, 'Dump Pouch Transformer', 22, 'Techinkom', 'Olive', 140, 240, 200, 85, 0, false);
+                                      in_stock, deleted, imagePath)
+VALUES (766871498659, 6, 'Dump Pouch Transformer', 22, 'Techinkom', 'Olive', 140, 240, 200, 85, 0, false,
+        'dump_pouch_transformer_olive.jpg');
 
 INSERT INTO mars_army_store.products (product_upc, category_id, name, price, brand, color, weight, height, width, depth,
-                                      in_stock, deleted)
-VALUES (766871498376, 7, 'Right Tactical Holster', 32, 'Techinkom', 'EMR Digital Flora', 260, 340, 150, 35, 8, false);
+                                      in_stock, deleted, imagePath)
+VALUES (766871498376, 7, 'Right Tactical Holster', 32, 'Techinkom', 'EMR Digital Flora', 260, 340, 150, 35, 8, false,
+        'right_tactical_holster_emr.jpg');
 
 INSERT INTO mars_army_store.products (product_upc, category_id, name, price, brand, color, weight, height, width, depth,
-                                      in_stock, deleted)
-VALUES (766871498086, 8, 'Two Point Gun Sling', 19, 'Techinkom', 'Olive', 120, 1500, 40, 10, 9, false);
+                                      in_stock, deleted, imagePath)
+VALUES (766871498086, 8, 'Two Point Gun Sling', 19, 'Techinkom', 'Olive', 120, 1500, 40, 10, 9, false,
+        'two_point_gun_sling_olive.jpg');
 
 INSERT INTO mars_army_store.products (product_upc, category_id, name, price, brand, color, weight, height, width, depth,
-                                      in_stock, deleted)
-VALUES (766871498499, 9, 'Sitting Mat', 18, 'Techinkom', 'VSR-98 Flora', 170, 290, 350, 20, 10, false);
+                                      in_stock, deleted, imagePath)
+VALUES (766871498499, 9, 'Sitting Mat', 18, 'Techinkom', 'VSR-98 Flora', 170, 290, 350, 20, 10, false,
+        'sitting_matt_flora.jpg');
 
 INSERT INTO mars_army_store.products (product_upc, category_id, name, price, brand, color, weight, height, width, depth,
-                                      in_stock, deleted)
-VALUES (766871500345, 10, 'Wallet', 19, 'Techinkom', 'EMR Digital Flora', 50, 95, 130, 15, 7, false);
+                                      in_stock, deleted, imagePath)
+VALUES (766871500345, 10, 'Wallet', 19, 'Techinkom', 'Olive', 50, 95, 130, 15, 7, false,
+        'wallet_olive.jpg');
 
 -- -----------------------------------------------------
 -- Fill table `mars_army_store`.`customers`
 -- -----------------------------------------------------
 INSERT INTO mars_army_store.customers (first_name, last_name, date_of_birth, email, password)
-VALUES ('John', 'Smith', '1970-01-01', 'smith@gmail.com', '$2a$10$mT.pnD6b1UYoGJqMpyaKoeY2pgZsRnTsQZZ1bKMrAv18FaUZFqsme');
+VALUES ('John', 'Smith', '1970-01-01', 'smith@gmail.com',
+        '$2a$10$mT.pnD6b1UYoGJqMpyaKoeY2pgZsRnTsQZZ1bKMrAv18FaUZFqsme');
 INSERT INTO mars_army_store.customers (first_name, last_name, date_of_birth, email, password)
-VALUES ('Antoni', 'Gaudi', '1852-06-25', 'gaudi@gmail.com', '$2a$10$JJEIgUaK7H7RoBiFFtk9V.kVGbLHl1mkv8oM42XUy0HiRKL.v2cca');
+VALUES ('Antoni', 'Gaudi', '1852-06-25', 'gaudi@gmail.com',
+        '$2a$10$JJEIgUaK7H7RoBiFFtk9V.kVGbLHl1mkv8oM42XUy0HiRKL.v2cca');
 INSERT INTO mars_army_store.customers (first_name, last_name, date_of_birth, email, password)
-VALUES ('Test', 'Testovich', '1970-01-01', 'test@gmail.com', '$2a$10$v.dF4pGCp/2M2yy9Y58W0eIp8KM.qi.hNUr/p6YPnOi8Pio3XFprK');
+VALUES ('Test', 'Testovich', '1970-01-01', 'test@gmail.com',
+        '$2a$10$v.dF4pGCp/2M2yy9Y58W0eIp8KM.qi.hNUr/p6YPnOi8Pio3XFprK');
 
 -- -----------------------------------------------------
 -- Fill table `mars_army_store`.`addresses`
@@ -403,16 +418,16 @@ VALUES (3, 1);
 -- -----------------------------------------------------
 INSERT INTO mars_army_store.orders (customer_id, payment_method_id, delivery_method_id, payment_status_id,
                                     order_status_id, address, total, date_of_sale)
-VALUES (3, 0, 0, 0, 0, '1 Ilinka Street 23, Moscow, Russia, 103132', 930, '2020-08-01');
+VALUES (3, 0, 0, 0, 0, '1 Ilinka Street 23, Moscow, Russia, 103132', 930, '2020-08-01 13:15:17');
 INSERT INTO mars_army_store.orders (customer_id, payment_method_id, delivery_method_id, payment_status_id,
                                     order_status_id, address, total, date_of_sale)
-VALUES (3, 1, 1, 1, 1, '1 Piazza del Colosseo 1, Roma, Italy, 00184', 289, '2020-08-03');
+VALUES (3, 1, 1, 1, 1, '1 Piazza del Colosseo 1, Roma, Italy, 00184', 289, '2020-08-03 12:24:45');
 INSERT INTO mars_army_store.orders (customer_id, payment_method_id, delivery_method_id, payment_status_id,
                                     order_status_id, address, total, date_of_sale)
-VALUES (3, 0, 1, 1, 2, '5 Rue de le Hotel de ville 7, Nice, France, 06364', 451, '2020-08-04');
+VALUES (3, 0, 1, 1, 2, '5 Rue de le Hotel de ville 7, Nice, France, 06364', 451, '2020-08-04 16:06:43');
 INSERT INTO mars_army_store.orders (customer_id, payment_method_id, delivery_method_id, payment_status_id,
                                     order_status_id, address, total, date_of_sale)
-VALUES (2, 1, 0, 1, 3, '3 Carrer Mallorca 401, Barcelona, Spain, 08013', 294, '2020-08-10');
+VALUES (2, 1, 0, 1, 3, '3 Carrer Mallorca 401, Barcelona, Spain, 08013', 294, '2020-08-10 10:55:01');
 
 -- -----------------------------------------------------
 -- Fill table `mars_army_store`.`products_in_orders`
@@ -442,6 +457,6 @@ VALUES (766871498086, 3, 9);
 INSERT INTO mars_army_store.products_in_orders (product_upc, order_id, number_of_products)
 VALUES (766871500345, 3, 5);
 INSERT INTO mars_army_store.products_in_orders (product_upc, order_id, number_of_products)
-VALUES (766871500345, 7, 6);
+VALUES (766871500345, 4, 6);
 INSERT INTO mars_army_store.products_in_orders (product_upc, order_id, number_of_products)
-VALUES (766871498499, 7, 10);
+VALUES (766871498499, 4, 10);

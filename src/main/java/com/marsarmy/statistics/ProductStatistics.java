@@ -1,4 +1,4 @@
-package com.marsarmy.dto;
+package com.marsarmy.statistics;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,7 +7,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class ProductStatisticsDto {
+public class ProductStatistics {
 
     private Long upc;
     private String name;

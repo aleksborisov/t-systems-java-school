@@ -1,7 +1,7 @@
 package com.marsarmy.dao.impl;
 
 import com.marsarmy.dao.interf.CustomerDao;
-import com.marsarmy.dto.CustomerStatisticsDto;
+import com.marsarmy.statistics.CustomerStatistics;
 import com.marsarmy.model.Customer;
 import com.marsarmy.model.enumeration.PaymentStatus;
 import org.springframework.stereotype.Component;
@@ -45,7 +45,7 @@ public class CustomerDaoImpl implements CustomerDao {
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<CustomerStatisticsDto> getTopTenCustomers() {
+    public List<CustomerStatistics> getTopTenCustomers() {
         List<Object[]> result = entityManager.createQuery("select c.firstName, c.lastName, c.email," +
                 " sum (o.total) as purchasesTotal" +
                 " from Customer c" +
@@ -62,17 +62,17 @@ public class CustomerDaoImpl implements CustomerDao {
             return new ArrayList<>();
         }
 
-        List<CustomerStatisticsDto> customersStatisticsDto = new ArrayList<>();
+        List<CustomerStatistics> customersStatistics = new ArrayList<>();
 
         for (Object[] objects : result) {
-            CustomerStatisticsDto customerStatisticsDto = new CustomerStatisticsDto();
-            customerStatisticsDto.setFirstName((String) objects[0]);
-            customerStatisticsDto.setLastName((String) objects[1]);
-            customerStatisticsDto.setEmail((String) objects[2]);
-            customerStatisticsDto.setPurchasesTotal((Long) objects[3]);
-            customersStatisticsDto.add(customerStatisticsDto);
+            CustomerStatistics customerStatistics = new CustomerStatistics();
+            customerStatistics.setFirstName((String) objects[0]);
+            customerStatistics.setLastName((String) objects[1]);
+            customerStatistics.setEmail((String) objects[2]);
+            customerStatistics.setPurchasesTotal((Long) objects[3]);
+            customersStatistics.add(customerStatistics);
         }
 
-        return customersStatisticsDto;
+        return customersStatistics;
     }
 }

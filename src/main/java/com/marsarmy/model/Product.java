@@ -67,6 +67,10 @@ public class Product implements Serializable {
     @Min(0)
     private int inStock;
 
+    @Column(name = "imagePath", nullable = false)
+    @Size(min = 5, max = 255)
+    private String imagePath;
+
     @Column(name = "deleted", nullable = false)
     private boolean deleted;
 
@@ -74,10 +78,4 @@ public class Product implements Serializable {
             cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<ProductsInOrder> productsInOrders;
-
-    @Override
-    public String toString() {
-        return upc+" "+category.getName()+" "+name+" "+price+" "+brand+" "+color+" "+weight+" "+height+" "+width+" "
-                +depth+" "+inStock+" "+deleted+" "+productsInOrders.size();
-    }
 }

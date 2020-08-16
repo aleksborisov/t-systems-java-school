@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @NoArgsConstructor
@@ -20,7 +20,7 @@ public class OrderDto {
     private String orderStatus;
     private String address;
     private Integer total;
-    private LocalDate dateOfSale;
+    private LocalDateTime dateOfSale;
 
     private List<ProductsInOrderDto> productsInOrdersDto;
 }
