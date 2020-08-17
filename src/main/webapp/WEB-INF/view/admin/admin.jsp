@@ -74,7 +74,7 @@
 <article>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-3">
+            <div class="col-3 text-center">
                 <h1>Admin panel</h1>
                 <a class="btn btn-primary btn-lg btn-block" href="${pageContext.request.contextPath}/admin/orders"
                    role="button">Orders</a>

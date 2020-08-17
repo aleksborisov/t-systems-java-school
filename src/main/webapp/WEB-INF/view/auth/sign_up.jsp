@@ -75,7 +75,7 @@
 <article>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-6">
+            <div class="col-8">
                 <h1>Create account</h1>
                 <form:form method="post" action="/sign_up" modelAttribute="customerDto">
                     <form>
@@ -113,7 +113,7 @@
                         </div>
                         <div class="form-group row">
                             <div class="col-sm-10">
-                                <button type="submit" class="btn btn-primary">Sign up</button>
+                                <button type="submit" class="btn btn-primary btn-lg">Sign up</button>
                             </div>
                         </div>
                     </form>

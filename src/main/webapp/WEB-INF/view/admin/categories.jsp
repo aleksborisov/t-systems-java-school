@@ -74,7 +74,7 @@
 <article>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-6">
+            <div class="col-4">
                 <h1>Categories</h1>
                 <a href="${pageContext.request.contextPath}/admin/create_category" class="btn btn-primary">Create</a>
                 <p><h5>Other Equipment</h5>

@@ -75,7 +75,7 @@
 <article>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-5">
+            <div class="col-9">
                 <h1>Editing account info</h1>
                 <form:form method="post" action="/account/edit_account" modelAttribute="customerDto">
                     <form>

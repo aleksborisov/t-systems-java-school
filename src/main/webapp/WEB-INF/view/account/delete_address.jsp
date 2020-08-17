@@ -75,7 +75,7 @@
 <article>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-5">
+            <div class="col-5 text-center">
                 <h1>Are you sure you want to remove this address?</h1>
                 <form:form method="post" action="/account/delete_address" modelAttribute="addressDto">
                     <form>

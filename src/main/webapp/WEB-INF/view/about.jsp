@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="core" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -72,7 +72,13 @@
     </nav>
 </header>
 <article>
-    <h1>About</h1>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-5">
+                <h1>About</h1>
+            </div>
+        </div>
+    </div>
 </article>
 </body>
 </html>

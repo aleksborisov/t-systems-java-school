@@ -85,7 +85,7 @@
                             delivery method: ${order.deliveryMethod}, payment status: ${order.paymentStatus},
                             order status: ${order.orderStatus}</h6>
                             <div><a href="${pageContext.request.contextPath}/admin/change_order_status?id=${order.id}"
-                                    class="btn btn-warning">Change status</a></div>
+                                    class="btn btn-warning btn-sm">Change status</a></div>
                             <table class="table table-striped">
                                 <thead>
                                 <tr>

@@ -119,7 +119,7 @@
                         </div>
                         <div class="form-group row">
                             <div class="col-sm-10">
-                                <button type="submit" class="btn btn-warning btn-lg">Create</button>
+                                <button type="submit" class="btn btn-primary btn-lg">Create</button>
                             </div>
                         </div>
                         <div class="form-group row">
