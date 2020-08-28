@@ -16,6 +16,9 @@ import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * Entity of customers table
+ */
 @Entity
 @Table(name = "customers")
 @NoArgsConstructor

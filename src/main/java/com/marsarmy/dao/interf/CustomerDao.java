@@ -5,6 +5,9 @@ import com.marsarmy.model.Customer;
 
 import java.util.List;
 
+/**
+ * DAO interface of Customer entity
+ */
 public interface CustomerDao {
 
     void create(Customer customer);

@@ -1,9 +1,13 @@
 package com.marsarmy.dto;
 
+import com.marsarmy.model.Address;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * DTO class of {@link Address} entity
+ */
 @NoArgsConstructor
 @Getter
 @Setter

@@ -13,6 +13,9 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * Entity of products table
+ */
 @Entity
 @Table(name = "products")
 @NoArgsConstructor

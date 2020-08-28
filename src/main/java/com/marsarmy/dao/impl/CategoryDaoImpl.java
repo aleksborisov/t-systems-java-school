@@ -9,22 +9,40 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
+/**
+ * DAO class of {@link Category} entity
+ */
 @Component
 public class CategoryDaoImpl implements CategoryDao {
 
     @PersistenceContext(unitName = "entityManagerFactory")
     private EntityManager entityManager;
 
+    /**
+     * Creates a new row in the categories table
+     *
+     * @param category Category entity to add to the database
+     */
     @Override
     public void create(Category category) {
         entityManager.persist(category);
     }
 
+    /**
+     * Updates a row in the categories table
+     *
+     * @param category Category entity to update in the database
+     */
     @Override
     public void update(Category category) {
         entityManager.merge(category);
     }
 
+    /**
+     * Deletes a row in the categories table
+     *
+     * @param category Category entity to delete from the database
+     */
     @Override
     public void delete(Category category) {
         entityManager.createQuery("delete from Category where id = :id")
@@ -32,11 +50,22 @@ public class CategoryDaoImpl implements CategoryDao {
                 .executeUpdate();
     }
 
+    /**
+     * Returns the list of all categories in the categories table
+     *
+     * @return {@link List} of {@link Category}
+     */
     @Override
     public List<Category> getAll() {
         return entityManager.createQuery("select c from Category c", Category.class).getResultList();
     }
 
+    /**
+     * Returns the category by id
+     *
+     * @param id Id of category to get from the database
+     * @return {@link Category}
+     */
     @Override
     public Category getOne(long id) {
         TypedQuery<Category> query = entityManager.createQuery(
@@ -47,6 +76,12 @@ public class CategoryDaoImpl implements CategoryDao {
         return query.getResultList().stream().findAny().orElse(null);
     }
 
+    /**
+     * Returns the category by name
+     *
+     * @param name Name of category to get from the database
+     * @return {@link Category}
+     */
     @Override
     public Category getByName(String name) {
         TypedQuery<Category> query = entityManager.createQuery(

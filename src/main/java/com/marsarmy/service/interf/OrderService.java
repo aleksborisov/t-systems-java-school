@@ -5,6 +5,9 @@ import com.marsarmy.model.Order;
 import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * Service interface responsible for operations on orders
+ */
 public interface OrderService {
 
     void create(Order order);

@@ -1,5 +1,6 @@
 package com.marsarmy.dto;
 
+import com.marsarmy.model.Order;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -7,6 +8,9 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * DTO class of {@link Order} entity
+ */
 @NoArgsConstructor
 @Getter
 @Setter

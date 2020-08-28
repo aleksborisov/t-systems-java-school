@@ -3,6 +3,9 @@ package com.marsarmy.config;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
+/**
+ * Spring MVC, JPA, Hibernate and Spring Security initialization
+ */
 @Order(1)
 public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 

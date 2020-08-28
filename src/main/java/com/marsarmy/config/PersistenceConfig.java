@@ -17,6 +17,9 @@ import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Properties;
 
+/**
+ * JPA and Hibernate configuration
+ */
 @Configuration
 @PropertySource("classpath:persistence.properties")
 @ComponentScan("com.marsarmy")

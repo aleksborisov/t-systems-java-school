@@ -7,9 +7,18 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Converter for Customer entity and CustomerDto
+ */
 @Component
 public class CustomerConverter {
 
+    /**
+     * Convert customer entity to CustomerDto
+     *
+     * @param customer Customer entity to convert
+     * @return {@link CustomerDto}
+     */
     public CustomerDto convertToDto(Customer customer) {
         CustomerDto customerDto = new CustomerDto();
 
@@ -22,6 +31,12 @@ public class CustomerConverter {
         return customerDto;
     }
 
+    /**
+     * Convert CustomerDto to customer entity
+     *
+     * @param customerDto CustomerDto to convert
+     * @return {@link Customer}
+     */
     public Customer convertToEntity(CustomerDto customerDto) {
         Customer customer = new Customer();
 
@@ -34,6 +49,12 @@ public class CustomerConverter {
         return customer;
     }
 
+    /**
+     * Convert List of Customer entities to List of CustomerDto
+     *
+     * @param customers List of Customer entities to convert
+     * @return {@link List} of {@link CustomerDto}
+     */
     public List<CustomerDto> convertToListOfDto(List<Customer> customers) {
         List<CustomerDto> customersDto = new ArrayList<>();
         for (Customer customer : customers) {
@@ -42,6 +63,12 @@ public class CustomerConverter {
         return customersDto;
     }
 
+    /**
+     * Convert List of CustomerDto to List of Customer entities
+     *
+     * @param customersDto List of CustomerDto to convert
+     * @return {@link List} of {@link Customer}
+     */
     public List<Customer> convertToListOfEntity(List<CustomerDto> customersDto) {
         List<Customer> customers = new ArrayList<>();
         for (CustomerDto customerDto : customersDto) {

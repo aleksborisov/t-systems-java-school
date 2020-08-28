@@ -9,6 +9,9 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Converter for Product entity and ProductDto
+ */
 @Component
 public class ProductConverter {
 
@@ -19,6 +22,12 @@ public class ProductConverter {
         this.categoryService = categoryService;
     }
 
+    /**
+     * Convert Product entity to ProductDto
+     *
+     * @param product Product entity to convert
+     * @return {@link ProductDto}
+     */
     public ProductDto convertToDto(Product product) {
         ProductDto productDto = new ProductDto();
 
@@ -42,6 +51,12 @@ public class ProductConverter {
         return productDto;
     }
 
+    /**
+     * Convert ProductDto to Product entity
+     *
+     * @param productDto ProductDto to convert
+     * @return {@link Product}
+     */
     public Product convertToEntity(ProductDto productDto) {
         Product product = new Product();
 
@@ -65,6 +80,12 @@ public class ProductConverter {
         return product;
     }
 
+    /**
+     * Convert List of Product entities to List of ProductDto
+     *
+     * @param products List of Product entities to convert
+     * @return {@link List} of {@link ProductDto}
+     */
     public List<ProductDto> convertToListOfDto(List<Product> products) {
         List<ProductDto> productsDto = new ArrayList<>();
         for (Product product : products) {
@@ -73,6 +94,12 @@ public class ProductConverter {
         return productsDto;
     }
 
+    /**
+     * Convert List of ProductDto to List of Product entities
+     *
+     * @param productsDto List of ProductDto to convert
+     * @return {@link List} of {@link Product}
+     */
     public List<Product> convertToListOfEntity(List<ProductDto> productsDto) {
         List<Product> products = new ArrayList<>();
         for (ProductDto productDto : productsDto) {

@@ -10,6 +10,9 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Converter for ProductsInOrder entity and ProductsInOrderDto
+ */
 @Component
 public class ProductsInOrderConverter {
 
@@ -25,6 +28,12 @@ public class ProductsInOrderConverter {
         this.productConverter = productConverter;
     }
 
+    /**
+     * Convert ProductsInOrder entity to ProductsInOrderDto
+     *
+     * @param productsInOrder ProductsInOrder entity to convert
+     * @return {@link ProductsInOrderDto}
+     */
     public ProductsInOrderDto convertToDto(ProductsInOrder productsInOrder) {
         ProductsInOrderDto productsInOrderDto = new ProductsInOrderDto();
 
@@ -36,6 +45,12 @@ public class ProductsInOrderConverter {
         return productsInOrderDto;
     }
 
+    /**
+     * Convert ProductsInOrderDto to ProductsInOrder entity
+     *
+     * @param productsInOrderDto ProductsInOrderDto to convert
+     * @return {@link ProductsInOrder}
+     */
     public ProductsInOrder convertToEntity(ProductsInOrderDto productsInOrderDto) {
         ProductsInOrder productsInOrder = new ProductsInOrder();
 
@@ -47,6 +62,12 @@ public class ProductsInOrderConverter {
         return productsInOrder;
     }
 
+    /**
+     * Convert List of ProductsInOrder entities to List of ProductsInOrderDto
+     *
+     * @param productsInOrders List of ProductsInOrder entities to convert
+     * @return {@link List} of {@link ProductsInOrderDto}
+     */
     public List<ProductsInOrderDto> convertToListOfDto(List<ProductsInOrder> productsInOrders) {
         List<ProductsInOrderDto> productsInOrdersDto = new ArrayList<>();
         for (ProductsInOrder productsInOrder : productsInOrders) {
@@ -55,6 +76,12 @@ public class ProductsInOrderConverter {
         return productsInOrdersDto;
     }
 
+    /**
+     * Convert List of ProductsInOrderDto to List of ProductsInOrder entities
+     *
+     * @param productsInOrdersDto List of ProductsInOrderDto to convert
+     * @return {@link List} of {@link ProductsInOrder}
+     */
     public List<ProductsInOrder> convertToListOfEntity(List<ProductsInOrderDto> productsInOrdersDto) {
         List<ProductsInOrder> productsInOrders = new ArrayList<>();
         for (ProductsInOrderDto productsInOrderDto : productsInOrdersDto) {

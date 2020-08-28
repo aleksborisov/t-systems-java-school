@@ -12,17 +12,30 @@ import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * DAO class of {@link Product} entity
+ */
 @Component
 public class ProductDaoImpl implements ProductDao {
 
     @PersistenceContext(unitName = "entityManagerFactory")
     private EntityManager entityManager;
 
+    /**
+     * Creates a new row in the products table
+     *
+     * @param product Product entity to add to the database
+     */
     @Override
     public void create(Product product) {
         entityManager.persist(product);
     }
 
+    /**
+     * Updates a row in the products table
+     *
+     * @param product Product entity to update in the database
+     */
     @Override
     public void update(Product product) {
         entityManager.merge(product);
@@ -33,18 +46,22 @@ public class ProductDaoImpl implements ProductDao {
         entityManager.flush();
     }
 
+    /**
+     * Returns the list of all products in products table
+     *
+     * @return {@link List} of {@link Product}
+     */
     @Override
     public List<Product> getAll() {
         return entityManager.createQuery("select p from Product p", Product.class).getResultList();
     }
 
-    @Override
-    public List<Product> getByCategory(String category) {
-        return entityManager.createQuery("select p from Product p where p.category.name = :category", Product.class)
-                .setParameter("category", category)
-                .getResultList();
-    }
-
+    /**
+     * Returns the product by upc
+     *
+     * @param upc UPC of product to get from the database
+     * @return {@link Product}
+     */
     @Override
     public Product getOne(long upc) {
         TypedQuery<Product> query = entityManager.createQuery(
@@ -55,6 +72,30 @@ public class ProductDaoImpl implements ProductDao {
         return query.getResultList().stream().findAny().orElse(null);
     }
 
+    /**
+     * Returns the list of products of category
+     *
+     * @param category Category name to get products from the database
+     * @return {@link List} of {@link Product}
+     */
+    @Override
+    public List<Product> getByCategory(String category) {
+        return entityManager.createQuery("select p from Product p where p.category.name = :category", Product.class)
+                .setParameter("category", category)
+                .getResultList();
+    }
+
+    /**
+     * Filters products by their fields
+     *
+     * @param category Category name
+     * @param name Product name or its part
+     * @param minPrice Minimum price include minPrice
+     * @param maxPrice Maximum price include maxPrice
+     * @param brand Product brand
+     * @param color Product color
+     * @return {@link List} of {@link Product}
+     */
     @Override
     public List<Product> filter(String category, String name, int minPrice,
                                 int maxPrice, String brand, String color) {
@@ -93,6 +134,11 @@ public class ProductDaoImpl implements ProductDao {
                 .getResultList();
     }
 
+    /**
+     * Returns the list of the top ten products
+     *
+     * @return {@link List} of {@link ProductStatistics}
+     */
     @Override
     @SuppressWarnings("unchecked")
     public List<ProductStatistics> getTopTenProducts() {

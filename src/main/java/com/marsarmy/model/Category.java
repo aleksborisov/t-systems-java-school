@@ -12,6 +12,9 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * Entity of categories table
+ */
 @Entity
 @Table(name = "categories")
 @NoArgsConstructor

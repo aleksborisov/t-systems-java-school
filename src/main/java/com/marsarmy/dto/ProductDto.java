@@ -1,9 +1,13 @@
 package com.marsarmy.dto;
 
+import com.marsarmy.model.Product;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * DTO class of {@link Product} entity
+ */
 @NoArgsConstructor
 @Getter
 @Setter

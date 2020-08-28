@@ -4,6 +4,9 @@ import com.marsarmy.model.Address;
 
 import java.util.List;
 
+/**
+ * DAO interface of Address entity
+ */
 public interface AddressDao {
 
     void create(Address address);

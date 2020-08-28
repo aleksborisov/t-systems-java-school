@@ -9,6 +9,9 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Converter for Address entity and AddressDto
+ */
 @Component
 public class AddressConverter {
 
@@ -19,6 +22,12 @@ public class AddressConverter {
         this.customerService = customerService;
     }
 
+    /**
+     * Convert Address entity to AddressDto
+     *
+     * @param address Address entity to convert
+     * @return {@link AddressDto}
+     */
     public AddressDto convertToDto(Address address) {
         AddressDto addressDto = new AddressDto();
 
@@ -34,6 +43,12 @@ public class AddressConverter {
         return addressDto;
     }
 
+    /**
+     * Convert AddressDto to Address entity
+     *
+     * @param addressDto AddressDto to convert
+     * @return {@link Address}
+     */
     public Address convertToEntity(AddressDto addressDto) {
         Address address = new Address();
 
@@ -52,6 +67,12 @@ public class AddressConverter {
         return address;
     }
 
+    /**
+     * Convert List of Address entities to List of AddressDto
+     *
+     * @param addresses List of Address entities to convert
+     * @return {@link List} of {@link AddressDto}
+     */
     public List<AddressDto> convertToListOfDto(List<Address> addresses) {
         List<AddressDto> addressesDto = new ArrayList<>();
         for (Address address : addresses) {
@@ -60,6 +81,12 @@ public class AddressConverter {
         return addressesDto;
     }
 
+    /**
+     * Convert List of AddressDto to List of Address entities
+     *
+     * @param addressesDto List of AddressDto to convert
+     * @return {@link List} of {@link Address}
+     */
     public List<Address> convertToListOfEntity(List<AddressDto> addressesDto) {
         List<Address> addresses = new ArrayList<>();
         for (AddressDto addressDto : addressesDto) {
@@ -68,6 +95,12 @@ public class AddressConverter {
         return addresses;
     }
 
+    /**
+     * Convert List of Address entities to List of AddressDto.toString()
+     *
+     * @param addresses List of Address entities to convert
+     * @return {@link List} of {@link String}
+     */
     public List<String> convertToListOfString(List<Address> addresses) {
         List<String> stringAddresses = new ArrayList<>();
         for (AddressDto addressDto : convertToListOfDto(addresses)) {

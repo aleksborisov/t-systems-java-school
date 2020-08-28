@@ -16,6 +16,9 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Converter for Order entity and OrderDto
+ */
 @Component
 public class OrderConverter {
 
@@ -31,6 +34,12 @@ public class OrderConverter {
         this.productsInOrderConverter = productsInOrderConverter;
     }
 
+    /**
+     * Convert Order entity to OrderDto
+     *
+     * @param order Order entity to convert
+     * @return {@link OrderDto}
+     */
     public OrderDto convertToDto(Order order) {
         OrderDto orderDto = new OrderDto();
 
@@ -53,6 +62,12 @@ public class OrderConverter {
         return orderDto;
     }
 
+    /**
+     * Convert OrderDto to Order entity
+     *
+     * @param orderDto OrderDto to convert
+     * @return {@link Order}
+     */
     public Order convertToEntity(OrderDto orderDto) {
         Order order = new Order();
 
@@ -85,6 +100,12 @@ public class OrderConverter {
         return order;
     }
 
+    /**
+     * Convert List of Order entities to List of OrderDto
+     *
+     * @param orders List of Order entities to convert
+     * @return {@link List} of {@link OrderDto}
+     */
     public List<OrderDto> convertToListOfDto(List<Order> orders) {
         List<OrderDto> ordersDto = new ArrayList<>();
         for (Order order : orders) {
@@ -93,6 +114,12 @@ public class OrderConverter {
         return ordersDto;
     }
 
+    /**
+     * Convert List of OrderDto to List of Order entities
+     *
+     * @param ordersDto List of OrderDto to convert
+     * @return {@link List} of {@link Order}
+     */
     public List<Order> convertToListOfEntity(List<OrderDto> ordersDto) {
         List<Order> orders = new ArrayList<>();
         for (OrderDto orderDto : ordersDto) {

@@ -9,6 +9,9 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * Entity of roles table
+ */
 @Entity
 @Table(name = "roles")
 @NoArgsConstructor

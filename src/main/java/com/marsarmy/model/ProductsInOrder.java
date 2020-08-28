@@ -8,6 +8,10 @@ import javax.persistence.*;
 import javax.validation.constraints.Min;
 import java.io.Serializable;
 
+/**
+ * Entity of products_in_orders table
+ * Represents the product belonging to the order and its quantity
+ */
 @Entity
 @Table(name = "products_in_orders")
 @NoArgsConstructor

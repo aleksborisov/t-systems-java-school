@@ -4,6 +4,9 @@ import com.marsarmy.model.Address;
 
 import java.util.List;
 
+/**
+ * Service interface responsible for operations on addresses
+ */
 public interface AddressService {
 
     void create(Address address);

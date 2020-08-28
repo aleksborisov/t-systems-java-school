@@ -10,6 +10,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
+/**
+ * Entity of addresses table
+ */
 @Entity
 @Table(name = "addresses")
 @NoArgsConstructor
@@ -53,4 +56,9 @@ public class Address implements Serializable {
     @Column(name = "apartment", nullable = false)
     @Min(1)
     private int apartment;
+
+    @Override
+    public String toString() {
+        return apartment + " " + street + " " + building + ", " + city + ", " + country + ", " + zipCode;
+    }
 }

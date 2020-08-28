@@ -20,6 +20,9 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Entity of orders table
+ */
 @Entity
 @Table(name = "orders")
 @NoArgsConstructor

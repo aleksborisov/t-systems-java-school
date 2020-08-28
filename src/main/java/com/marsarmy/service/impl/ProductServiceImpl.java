@@ -6,6 +6,7 @@ import com.marsarmy.dto.ProductDto;
 import com.marsarmy.statistics.ProductStatistics;
 import com.marsarmy.model.Product;
 import com.marsarmy.service.interf.ProductService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +15,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Service responsible for operations on products
+ */
 @Service
 @Transactional(readOnly = true)
 public class ProductServiceImpl implements ProductService {
@@ -21,46 +25,92 @@ public class ProductServiceImpl implements ProductService {
     private final ProductDao productDao;
     private final ProductConverter productConverter;
 
+    private static final Logger LOGGER = Logger.getLogger(ProductServiceImpl.class);
+
     @Autowired
     public ProductServiceImpl(ProductDao productDao, ProductConverter productConverter) {
         this.productDao = productDao;
         this.productConverter = productConverter;
     }
 
+    /**
+     * Creates a new product
+     *
+     * @param product Product entity to be created
+     */
     @Override
     @Transactional
     public void create(Product product) {
         productDao.create(product);
+        LOGGER.info("Product #" + product.getUpc() + " was created");
     }
 
+    /**
+     * Updates transmitted product
+     *
+     * @param product Product entity to be updated
+     */
     @Override
     @Transactional
     public void update(Product product) {
         productDao.update(product);
+        LOGGER.info("Product #" + product.getUpc() + " was updated");
     }
 
+    /**
+     * Returns the list of all products
+     *
+     * @return {@link List} of {@link Product}
+     */
     @Override
     public List<Product> getAll() {
         return productDao.getAll();
     }
 
+    /**
+     * Returns the product by upc
+     *
+     * @param upc UPC of product to get
+     * @return {@link Product}
+     */
     @Override
     public Product getOne(long upc) {
         return productDao.getOne(upc);
     }
 
+    /**
+     * Filters products by their fields
+     *
+     * @param category Category name
+     * @param name Product name or its part
+     * @param minPrice Minimum price include minPrice
+     * @param maxPrice Maximum price include maxPrice
+     * @param brand Product brand
+     * @param color Product color
+     * @return {@link List} of {@link Product}
+     */
     @Override
     public List<Product> filter(String category, String name, int minPrice,
                                 int maxPrice, String brand, String color) {
-
         return productDao.filter(category, name, minPrice, maxPrice, brand, color);
     }
 
+    /**
+     * Returns the list of the top ten products
+     *
+     * @return {@link List} of {@link ProductStatistics}
+     */
     @Override
     public List<ProductStatistics> getTopTenProducts() {
         return productDao.getTopTenProducts();
     }
 
+    /**
+     * Returns the map of products and its quantity in the cart at the moment. If cart is empty, returns an empty map.
+     *
+     * @param cart Map of product UPCs and its quantity in the cart
+     * @return {@link Map} of {@link ProductDto}, {@link Integer}
+     */
     @Override
     public Map<ProductDto, Integer> getProductsFromCart(Map<Long, Integer> cart) {
         if (cart == null) {
@@ -76,6 +126,14 @@ public class ProductServiceImpl implements ProductService {
         return products;
     }
 
+    /**
+     * Returns true if the requested quantity of product is equals or greater than the quantity in stock.
+     * Otherwise returns false.
+     *
+     * @param upc Product UPC to check quantity
+     * @param quantity Requested quantity of product
+     * @return Boolean
+     */
     @Override
     public boolean checkNumberOfProducts(long upc, int quantity) {
         return productDao.getOne(upc).getInStock() >= quantity;

@@ -1,9 +1,13 @@
 package com.marsarmy.statistics;
 
+import com.marsarmy.model.Product;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Class that stores {@link Product} statistics
+ */
 @NoArgsConstructor
 @Getter
 @Setter

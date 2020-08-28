@@ -3,6 +3,8 @@ package com.marsarmy.controller;
 import com.marsarmy.converter.AddressConverter;
 import com.marsarmy.converter.OrderConverter;
 import com.marsarmy.dto.OrderDto;
+import com.marsarmy.exception.OutOfStockException;
+import com.marsarmy.model.Product;
 import com.marsarmy.service.interf.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,6 +17,9 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Controller responsible for handling cart-related requests
+ */
 @Controller
 @RequestMapping("/cart")
 public class CartController {
@@ -40,6 +45,13 @@ public class CartController {
         this.addressConverter = addressConverter;
     }
 
+    /**
+     * Returns a view of shopping cart
+     *
+     * @param model Spring MVC {@link Model}
+     * @param session HttpSession
+     * @return View
+     */
     @GetMapping("/cart")
     @SuppressWarnings("unchecked")
     public String getCart(Model model, HttpSession session) {
@@ -62,6 +74,13 @@ public class CartController {
         return "cart";
     }
 
+    /**
+     * Creates order from shopping cart
+     *
+     * @param orderDto DTO of order entity
+     * @param session HttpSession
+     * @return Redirect to view
+     */
     @PostMapping("/cart")
     @SuppressWarnings("unchecked")
     public String createOrder(@ModelAttribute("orderDto") OrderDto orderDto, HttpSession session) {
@@ -74,6 +93,13 @@ public class CartController {
         return "redirect:/account/account";
     }
 
+    /**
+     * Adds product to shopping cart
+     *
+     * @param upc Product UPC to add
+     * @param session HttpSession
+     * @return Redirect to view
+     */
     @RequestMapping("/buy")
     @SuppressWarnings("unchecked")
     public String buyProduct(@RequestParam Long upc, HttpSession session) {
@@ -84,7 +110,8 @@ public class CartController {
                 session.setAttribute("cart", cart);
                 session.setAttribute("cartSize", 1);
             } else {
-                return "error/out_of_stock";
+                Product product = productService.getOne(upc);
+                throw new OutOfStockException(product.getInStock(), product.getName(), product.getColor());
             }
         } else {
             Map<Long, Integer> cart = (Map<Long, Integer>) session.getAttribute("cart");
@@ -97,13 +124,21 @@ public class CartController {
                 session.setAttribute("cart", cart);
                 session.setAttribute("cartSize", cart.size());
             } else {
-                return "error/out_of_stock";
+                Product product = productService.getOne(upc);
+                throw new OutOfStockException(product.getInStock(), product.getName(), product.getColor());
             }
         }
 
         return "redirect:/catalog";
     }
 
+    /**
+     * Deletes product from shopping cart
+     *
+     * @param upc Product UPC to delete
+     * @param session HttpSession
+     * @return Redirect to view
+     */
     @RequestMapping("/delete_from_card")
     @SuppressWarnings("unchecked")
     public String deleteProductFromCart(@RequestParam Long upc, HttpSession session) {

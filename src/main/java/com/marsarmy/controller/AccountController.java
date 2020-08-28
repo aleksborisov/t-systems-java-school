@@ -22,6 +22,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Controller responsible for handling account-related requests
+ */
 @Controller
 @RequestMapping("/account")
 public class AccountController {
@@ -48,6 +51,12 @@ public class AccountController {
         this.orderConverter = orderConverter;
     }
 
+    /**
+     * Returns a view of user's account information
+     *
+     * @param model Spring MVC {@link Model}
+     * @return View
+     */
     @GetMapping("/account")
     public String getAccount(Model model) {
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
@@ -63,6 +72,12 @@ public class AccountController {
         return "account/account";
     }
 
+    /**
+     * Returns a view of editing user's account information
+     *
+     * @param model Spring MVC {@link Model}
+     * @return View
+     */
     @GetMapping("/edit_account")
     public String getEditAccount(Model model) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
@@ -71,6 +86,13 @@ public class AccountController {
         return "account/edit_account";
     }
 
+    /**
+     * Edits user's account information
+     *
+     * @param customerDto DTO of Customer entity
+     * @param request HttpServletRequest
+     * @return Redirect to view
+     */
     @PostMapping("/edit_account")
     public String editAccount(@ModelAttribute("customerDto") CustomerDto customerDto, HttpServletRequest request) {
         customerService.update(customerConverter.convertToEntity(customerDto));
@@ -78,6 +100,12 @@ public class AccountController {
         return "redirect:/account/account";
     }
 
+    /**
+     * Returns a view of creating user's address
+     *
+     * @param model Spring MVC {@link Model}
+     * @return View
+     */
     @GetMapping("/create_address")
     public String getCreateAddress(Model model) {
         model.addAttribute("addressDto", new AddressDto());
@@ -85,36 +113,74 @@ public class AccountController {
         return "account/create_address";
     }
 
+    /**
+     * Creates user's address
+     *
+     * @param addressDto DTO of Address entity
+     * @return Redirect to view
+     */
     @PostMapping("/create_address")
     public String createAddress(@ModelAttribute("addressDto") AddressDto addressDto) {
         addressService.create(addressConverter.convertToEntity(addressDto));
         return "redirect:/account/account";
     }
 
+    /**
+     * Returns a view of editing user's address
+     *
+     * @param model Spring MVC {@link Model}
+     * @param id Address id to edit
+     * @return View
+     */
     @GetMapping("/edit_address")
     public String getEditAddress(Model model, @RequestParam Long id) {
         model.addAttribute("addressDto", addressConverter.convertToDto(addressService.getOne(id)));
         return "account/edit_address";
     }
 
+    /**
+     * Edits user's address
+     *
+     * @param addressDto DTO of Address entity
+     * @return Redirect to view
+     */
     @PostMapping("/edit_address")
     public String editAddress(@ModelAttribute("addressDto") AddressDto addressDto) {
         addressService.update(addressConverter.convertToEntity(addressDto));
         return "redirect:/account/account";
     }
 
+    /**
+     * Returns a view of deleting user's address
+     *
+     * @param model Spring MVC {@link Model}
+     * @param id Address id to delete
+     * @return View
+     */
     @GetMapping("/delete_address")
     public String getDeleteAddress(Model model, @RequestParam Long id) {
         model.addAttribute("addressDto", addressConverter.convertToDto(addressService.getOne(id)));
         return "account/delete_address";
     }
 
+    /**
+     * Deletes user's address
+     *
+     * @param addressDto DTO of Address entity
+     * @return Redirect to view
+     */
     @PostMapping("/delete_address")
     public String deleteAddress(@ModelAttribute("addressDto") AddressDto addressDto) {
         addressService.delete(addressConverter.convertToEntity(addressDto));
         return "redirect:/account/account";
     }
 
+    /**
+     * Authenticate transmitted user
+     *
+     * @param customer User to authenticate
+     * @param request HttpServletRequest
+     */
     private void authenticateUserAndSetSession(Customer customer, HttpServletRequest request) {
         String email = customer.getUsername();
         String password = customer.getPassword();

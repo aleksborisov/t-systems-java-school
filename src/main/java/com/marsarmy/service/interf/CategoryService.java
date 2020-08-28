@@ -4,6 +4,9 @@ import com.marsarmy.model.Category;
 
 import java.util.List;
 
+/**
+ * Service interface responsible for operations on categories
+ */
 public interface CategoryService {
 
     void create(Category category);

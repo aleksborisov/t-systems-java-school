@@ -5,6 +5,9 @@ import com.marsarmy.model.Product;
 
 import java.util.List;
 
+/**
+ * DAO interface of Product entity
+ */
 public interface ProductDao {
 
     void create(Product product);

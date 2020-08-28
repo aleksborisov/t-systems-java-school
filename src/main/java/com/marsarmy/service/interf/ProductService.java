@@ -7,6 +7,9 @@ import com.marsarmy.model.Product;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Service interface responsible for operations on products
+ */
 public interface ProductService {
 
     void create(Product product);

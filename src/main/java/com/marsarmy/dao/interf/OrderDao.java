@@ -5,6 +5,9 @@ import com.marsarmy.model.Order;
 import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * DAO interface of Order entity
+ */
 public interface OrderDao {
 
     void create(Order order);

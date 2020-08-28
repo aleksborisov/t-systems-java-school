@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Controller responsible for handling authentication-related requests
+ */
 @Controller
 public class AuthController {
 
@@ -30,12 +33,25 @@ public class AuthController {
         this.authenticationManager = authenticationManager;
     }
 
+    /**
+     * Returns a view of singing up
+     *
+     * @param model Spring MVC {@link Model}
+     * @return View
+     */
     @GetMapping("/sign_up")
     public String getSignUp(Model model) {
         model.addAttribute("customerDto", new CustomerDto());
         return "auth/sign_up";
     }
 
+    /**
+     * Process singing up
+     *
+     * @param customerDto Spring MVC {@link Model}
+     * @param request HttpServletRequest
+     * @return Redirect to view
+     */
     @PostMapping("/sign_up")
     public String signUp(@ModelAttribute("customerDto") CustomerDto customerDto, HttpServletRequest request) {
         customerService.create(customerConverter.convertToEntity(customerDto));
@@ -43,6 +59,13 @@ public class AuthController {
         return "redirect:/";
     }
 
+    /**
+     * Process singing in
+     *
+     * @param error Error flag
+     * @param model Spring MVC {@link Model}
+     * @return View
+     */
     @RequestMapping("/login")
     public String login(@RequestParam(name = "error", required = false) Boolean error, Model model) {
         if (Boolean.TRUE.equals(error)) {
@@ -51,6 +74,12 @@ public class AuthController {
         return "auth/sign_in";
     }
 
+    /**
+     * Authenticate transmitted user
+     *
+     * @param customer User to authenticate
+     * @param request HttpServletRequest
+     */
     private void authenticateUserAndSetSession(Customer customer, HttpServletRequest request) {
         String email = customer.getUsername();
         String password = customer.getPassword();
