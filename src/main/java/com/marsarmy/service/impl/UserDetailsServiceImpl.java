@@ -33,6 +33,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        if (email == null || email.isEmpty()) {
+            throw new IllegalArgumentException("Email can't be null or empty");
+        }
+
         Customer customer = customerDao.getOne(email);
 
         if (customer == null) {

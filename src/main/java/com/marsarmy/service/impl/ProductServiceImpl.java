@@ -41,6 +41,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public void create(Product product) {
+        if (product == null) {
+            throw new IllegalArgumentException("Product can't be null");
+        }
+
         productDao.create(product);
         LOGGER.info("Product #" + product.getUpc() + " was created");
     }
@@ -53,6 +57,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public void update(Product product) {
+        if (product == null) {
+            throw new IllegalArgumentException("Product can't be null");
+        }
+
         productDao.update(product);
         LOGGER.info("Product #" + product.getUpc() + " was updated");
     }
@@ -75,6 +83,10 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public Product getOne(long upc) {
+        if (upc < 1) {
+            throw new IllegalArgumentException("Product UPC can't be less than 1");
+        }
+
         return productDao.getOne(upc);
     }
 
@@ -92,6 +104,18 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> filter(String category, String name, int minPrice,
                                 int maxPrice, String brand, String color) {
+        if (category == null || name == null || brand == null || color == null) {
+            throw new IllegalArgumentException("Category, name, brand and color can't be null");
+        }
+
+        if (category.isEmpty() || name.isEmpty() || brand.isEmpty() || color.isEmpty()) {
+            throw new IllegalArgumentException("Category, name, brand and color can't be empty");
+        }
+
+        if (minPrice < 0 || maxPrice < 0) {
+            throw new IllegalArgumentException("Minimal price and maximum price can't be less than 0");
+        }
+
         return productDao.filter(category, name, minPrice, maxPrice, brand, color);
     }
 
@@ -136,6 +160,10 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public boolean checkNumberOfProducts(long upc, int quantity) {
+        if (upc < 1 || quantity < 1) {
+            throw new IllegalArgumentException("Product UPC and quantity can't be less than 1");
+        }
+
         return productDao.getOne(upc).getInStock() >= quantity;
     }
 }

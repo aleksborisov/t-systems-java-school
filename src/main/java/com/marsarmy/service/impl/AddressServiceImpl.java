@@ -37,6 +37,10 @@ public class AddressServiceImpl implements AddressService {
     @Override
     @Transactional
     public void create(Address address) {
+        if (address == null) {
+            throw new IllegalArgumentException("Address can't be null");
+        }
+
         addressDao.create(address);
         LOGGER.info("User " + address.getCustomer().getEmail() + " create address " + address.toString());
     }
@@ -49,6 +53,10 @@ public class AddressServiceImpl implements AddressService {
     @Override
     @Transactional
     public void update(Address address) {
+        if (address == null) {
+            throw new IllegalArgumentException("Address can't be null");
+        }
+
         addressDao.update(address);
         LOGGER.info("User " + address.getCustomer().getEmail() + " update address " + address.toString());
     }
@@ -61,6 +69,10 @@ public class AddressServiceImpl implements AddressService {
     @Override
     @Transactional
     public void delete(Address address) {
+        if (address == null) {
+            throw new IllegalArgumentException("Address can't be null");
+        }
+
         addressDao.delete(address);
         LOGGER.info("User " + address.getCustomer().getEmail() + " delete address " + address.toString());
     }
@@ -83,6 +95,10 @@ public class AddressServiceImpl implements AddressService {
      */
     @Override
     public Address getOne(long id) {
+        if (id < 1) {
+            throw new IllegalArgumentException("Address id can't be less than 1");
+        }
+
         return addressDao.getOne(id);
     }
 
@@ -94,6 +110,10 @@ public class AddressServiceImpl implements AddressService {
      */
     @Override
     public List<Address> getByCustomerId(long customerId) {
+        if (customerId < 1) {
+            throw new IllegalArgumentException("Customer id can't be less than 1");
+        }
+
         return addressDao.getByCustomerId(customerId);
     }
 
@@ -105,6 +125,10 @@ public class AddressServiceImpl implements AddressService {
      */
     @Override
     public List<Address> getByCustomerEmail(String email) {
+        if (email == null || email.isEmpty()) {
+            throw new IllegalArgumentException("Customer email can't be null or empty");
+        }
+
         return addressDao.getByCustomerId(customerService.getOne(email).getId());
     }
 }

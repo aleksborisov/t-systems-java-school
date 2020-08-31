@@ -45,6 +45,10 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     @Transactional
     public void create(Customer customer) {
+        if (customer == null) {
+            throw new IllegalArgumentException("Customer can't be null");
+        }
+
         customer.setRoles(Collections.singletonList(roleService.getOne("ROLE_USER")));
         customer.setPassword(bCryptPasswordEncoder.encode(customer.getPassword()));
         customerDao.create(customer);
@@ -59,6 +63,10 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     @Transactional
     public void update(Customer customer) {
+        if (customer == null) {
+            throw new IllegalArgumentException("Customer can't be null");
+        }
+
         Customer oldCustomer = getCurrentUser();
         customer.setId(oldCustomer.getId());
         customer.setPassword(bCryptPasswordEncoder.encode(customer.getPassword()));
@@ -87,6 +95,10 @@ public class CustomerServiceImpl implements CustomerService {
      */
     @Override
     public Customer getOne(String email) {
+        if (email == null || email.isEmpty()) {
+            throw new IllegalArgumentException("Email can't be null or empty");
+        }
+
         return customerDao.getOne(email);
     }
 

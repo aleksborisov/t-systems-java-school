@@ -41,6 +41,10 @@ public class RoleServiceImpl implements RoleService {
      */
     @Override
     public Role getOne(String name) {
+        if (name == null || name.isEmpty()) {
+            throw new IllegalArgumentException("Role name can't be null or empty");
+        }
+
         return roleDao.getOne(name);
     }
 }

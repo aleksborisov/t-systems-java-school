@@ -40,6 +40,14 @@ public class ProductsInOrderServiceImpl implements ProductsInOrderService {
     @Override
     @Transactional
     public void create(Order order, Map<Long, Integer> cart) {
+        if (order == null) {
+            throw new IllegalArgumentException("Order can't be null");
+        }
+
+        if (cart == null || cart.size() == 0) {
+            throw new IllegalArgumentException("Cart can't be null or empty");
+        }
+
         for (Map.Entry<Long, Integer> entry : cart.entrySet()) {
             Product product = productDao.getOne(entry.getKey());
 
@@ -65,6 +73,10 @@ public class ProductsInOrderServiceImpl implements ProductsInOrderService {
      */
     @Override
     public ProductsInOrder getOne(long id) {
+        if (id < 1) {
+            throw new IllegalArgumentException("ProductsInOrder id can't be less than 1");
+        }
+
         return productsInOrderDao.getOne(id);
     }
 }

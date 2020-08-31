@@ -38,6 +38,10 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     @Transactional
     public void create(Category category) {
+        if (category == null) {
+            throw new IllegalArgumentException("Category can't be null");
+        }
+
         categoryDao.create(category);
         LOGGER.info("Category \"" + category.getName() + "\" was created");
     }
@@ -50,6 +54,10 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     @Transactional
     public void update(Category category) {
+        if (category == null) {
+            throw new IllegalArgumentException("Category can't be null");
+        }
+
         categoryDao.update(category);
         LOGGER.info("Category \"" + category.getName() + "\" was updated");
     }
@@ -62,6 +70,10 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     @Transactional
     public void delete(Category category) {
+        if (category == null) {
+            throw new IllegalArgumentException("Category can't be null");
+        }
+
         List<Product> products = productDao.getByCategory(category.getName());
         for (Product product : products) {
             product.setCategory(categoryDao.getByName("Other Equipment"));
@@ -90,7 +102,11 @@ public class CategoryServiceImpl implements CategoryService {
      * @return {@link Category}
      */
     @Override
-    public Category getOne(Long id) {
+    public Category getOne(long id) {
+        if (id < 1) {
+            throw new IllegalArgumentException("Category id can't be less than 1");
+        }
+
         return categoryDao.getOne(id);
     }
 
@@ -102,6 +118,10 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     public Category getByName(String name) {
+        if (name == null || name.isEmpty()) {
+            throw new IllegalArgumentException("Category name can't be null or empty");
+        }
+
         return categoryDao.getByName(name);
     }
 }

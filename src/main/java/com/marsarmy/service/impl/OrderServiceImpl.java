@@ -35,6 +35,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public void create(Order order) {
+        if (order == null) {
+            throw new IllegalArgumentException("Order can't be null");
+        }
+
         orderDao.create(order);
         LOGGER.info("Order #" + order.getId() + " for customer " + order.getCustomer().getEmail() + " was created");
     }
@@ -47,6 +51,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public void update(Order order) {
+        if (order == null) {
+            throw new IllegalArgumentException("Order can't be null");
+        }
+
         orderDao.update(order);
         LOGGER.info("Order #" + order.getId() + " for customer " + order.getCustomer().getEmail() + " was updated");
     }
@@ -69,6 +77,10 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public Order getOne(long id) {
+        if (id < 1) {
+            throw new IllegalArgumentException("Order id can't be less than 1");
+        }
+
         return orderDao.getOne(id);
     }
 
@@ -80,6 +92,10 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public List<Order> getByCustomer(long customerId) {
+        if (customerId < 1) {
+            throw new IllegalArgumentException("Customer id can't be less than 1");
+        }
+
         return orderDao.getByCustomer(customerId);
     }
 
@@ -91,6 +107,10 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public Order getLast(String email) {
+        if (email == null || email.isEmpty()) {
+            throw new IllegalArgumentException("Customer email can't be null or empty");
+        }
+
         return orderDao.getLast(email);
     }
 
