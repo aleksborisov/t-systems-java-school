@@ -5,6 +5,7 @@ import com.marsarmy.dao.interf.ProductDao;
 import com.marsarmy.model.Category;
 import com.marsarmy.model.Product;
 import com.marsarmy.service.interf.CategoryService;
+import com.marsarmy.service.interf.JmsService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,13 +22,15 @@ public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryDao categoryDao;
     private final ProductDao productDao;
+    private final JmsService jmsService;
 
     private static final Logger LOGGER = Logger.getLogger(CategoryServiceImpl.class);
 
     @Autowired
-    public CategoryServiceImpl(CategoryDao categoryDao, ProductDao productDao) {
+    public CategoryServiceImpl(CategoryDao categoryDao, ProductDao productDao, JmsService jmsService) {
         this.categoryDao = categoryDao;
         this.productDao = productDao;
+        this.jmsService = jmsService;
     }
 
     /**
@@ -47,7 +50,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     /**
-     * Updates transmitted category
+     * Updates transmitted category and initializes update of statistics in advertising stands
      *
      * @param category Category entity to be updated
      */
@@ -59,11 +62,12 @@ public class CategoryServiceImpl implements CategoryService {
         }
 
         categoryDao.update(category);
+        jmsService.sendUpdate();
         LOGGER.info("Category \"" + category.getName() + "\" was updated");
     }
 
     /**
-     * Deletes transmitted category
+     * Deletes transmitted category and initializes update of statistics in advertising stands
      *
      * @param category Category entity to be deleted
      */
@@ -82,6 +86,7 @@ public class CategoryServiceImpl implements CategoryService {
         }
 
         categoryDao.delete(category);
+        jmsService.sendUpdate();
         LOGGER.info("Category \"" + category.getName() + "\" was deleted");
     }
 

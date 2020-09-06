@@ -3,6 +3,7 @@ package com.marsarmy.service.impl;
 import com.marsarmy.converter.ProductConverter;
 import com.marsarmy.dao.interf.ProductDao;
 import com.marsarmy.dto.ProductDto;
+import com.marsarmy.service.interf.JmsService;
 import com.marsarmy.statistics.ProductStatistics;
 import com.marsarmy.model.Product;
 import com.marsarmy.service.interf.ProductService;
@@ -24,13 +25,15 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductDao productDao;
     private final ProductConverter productConverter;
+    private final JmsService jmsService;
 
     private static final Logger LOGGER = Logger.getLogger(ProductServiceImpl.class);
 
     @Autowired
-    public ProductServiceImpl(ProductDao productDao, ProductConverter productConverter) {
+    public ProductServiceImpl(ProductDao productDao, ProductConverter productConverter, JmsService jmsService) {
         this.productDao = productDao;
         this.productConverter = productConverter;
+        this.jmsService = jmsService;
     }
 
     /**
@@ -62,6 +65,7 @@ public class ProductServiceImpl implements ProductService {
         }
 
         productDao.update(product);
+        jmsService.sendUpdate();
         LOGGER.info("Product #" + product.getUpc() + " was updated");
     }
 
@@ -104,14 +108,6 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> filter(String category, String name, int minPrice,
                                 int maxPrice, String brand, String color) {
-        if (category == null || name == null || brand == null || color == null) {
-            throw new IllegalArgumentException("Category, name, brand and color can't be null");
-        }
-
-        if (category.isEmpty() || name.isEmpty() || brand.isEmpty() || color.isEmpty()) {
-            throw new IllegalArgumentException("Category, name, brand and color can't be empty");
-        }
-
         if (minPrice < 0 || maxPrice < 0) {
             throw new IllegalArgumentException("Minimal price and maximum price can't be less than 0");
         }

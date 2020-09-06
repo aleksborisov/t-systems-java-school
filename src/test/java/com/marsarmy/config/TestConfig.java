@@ -21,7 +21,7 @@ public class TestConfig {
 
     @Bean
     public CategoryService categoryService() {
-        return new CategoryServiceImpl(categoryDao(), productDao());
+        return new CategoryServiceImpl(categoryDao(), productDao(), jmsService());
     }
 
     @Bean
@@ -31,12 +31,12 @@ public class TestConfig {
 
     @Bean
     public OrderService orderService() {
-        return new OrderServiceImpl(orderDao());
+        return new OrderServiceImpl(orderDao(), jmsService());
     }
 
     @Bean
     public ProductService productService() {
-        return new ProductServiceImpl(productDao(), productConverter());
+        return new ProductServiceImpl(productDao(), productConverter(), jmsService());
     }
 
     @Bean
@@ -52,6 +52,11 @@ public class TestConfig {
     @Bean
     public UserDetailsService userDetailsService() {
         return new UserDetailsServiceImpl(customerDao());
+    }
+
+    @Bean
+    public JmsService jmsService() {
+        return mock(JmsService.class);
     }
 
     @Bean

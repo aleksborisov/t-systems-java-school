@@ -35,54 +35,6 @@ public class ProductServiceImplTest {
     }
 
     @Test
-    public void categoryShouldNotBeNull() {
-        assertThrows(IllegalArgumentException.class, () -> productService.filter(null, "test",
-                0, 1, "test", "test"));
-    }
-
-    @Test
-    public void nameShouldNotBeNull() {
-        assertThrows(IllegalArgumentException.class, () -> productService.filter("test", null,
-                0, 1, "test", "test"));
-    }
-
-    @Test
-    public void brandShouldNotBeNull() {
-        assertThrows(IllegalArgumentException.class, () -> productService.filter("test", "test",
-                0, 1, null, "test"));
-    }
-
-    @Test
-    public void colorShouldNotBeNull() {
-        assertThrows(IllegalArgumentException.class, () -> productService.filter("test", "test",
-                0, 1, "test", null));
-    }
-
-    @Test
-    public void categoryShouldNotBeEmpty() {
-        assertThrows(IllegalArgumentException.class, () -> productService.filter("", "test",
-                0, 1, "test", "test"));
-    }
-
-    @Test
-    public void nameShouldNotBeEmpty() {
-        assertThrows(IllegalArgumentException.class, () -> productService.filter("test", "",
-                0, 1, "test", "test"));
-    }
-
-    @Test
-    public void brandShouldNotBeEmpty() {
-        assertThrows(IllegalArgumentException.class, () -> productService.filter("test", "test",
-                0, 1, "", "test"));
-    }
-
-    @Test
-    public void colorShouldNotBeEmpty() {
-        assertThrows(IllegalArgumentException.class, () -> productService.filter("test", "test",
-                0, 1, "test", ""));
-    }
-
-    @Test
     public void minPriceShouldNotBeLessThanZero() {
         assertThrows(IllegalArgumentException.class, () -> productService.filter("test", "test",
                 -1, 1, "test", "test"));

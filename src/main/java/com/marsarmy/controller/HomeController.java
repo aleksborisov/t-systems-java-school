@@ -92,7 +92,7 @@ public class HomeController {
      *
      * @return View
      */
-    @GetMapping("about")
+    @GetMapping("/about")
     public String getAbout() {
         return "about";
     }
