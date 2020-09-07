@@ -2,7 +2,6 @@ package com.marsarmy.service.impl;
 
 import com.marsarmy.dao.interf.OrderDao;
 import com.marsarmy.model.Order;
-import com.marsarmy.service.interf.JmsService;
 import com.marsarmy.service.interf.OrderService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +19,12 @@ import java.util.List;
 public class OrderServiceImpl implements OrderService {
 
     private final OrderDao orderDao;
-    private final JmsService jmsService;
 
     private static final Logger LOGGER = Logger.getLogger(OrderServiceImpl.class);
 
     @Autowired
-    public OrderServiceImpl(OrderDao orderDao, JmsService jmsService) {
+    public OrderServiceImpl(OrderDao orderDao) {
         this.orderDao = orderDao;
-        this.jmsService = jmsService;
     }
 
     /**
@@ -59,7 +56,6 @@ public class OrderServiceImpl implements OrderService {
         }
 
         orderDao.update(order);
-        jmsService.sendUpdate();
         LOGGER.info("Order #" + order.getId() + " for customer " + order.getCustomer().getEmail() + " was updated");
     }
 

@@ -7,10 +7,7 @@ import com.marsarmy.dto.CategoryDto;
 import com.marsarmy.dto.OrderDto;
 import com.marsarmy.dto.ProductDto;
 import com.marsarmy.model.Product;
-import com.marsarmy.service.interf.CategoryService;
-import com.marsarmy.service.interf.CustomerService;
-import com.marsarmy.service.interf.OrderService;
-import com.marsarmy.service.interf.ProductService;
+import com.marsarmy.service.interf.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,12 +29,13 @@ public class AdminController {
     private final ProductConverter productConverter;
     private final CategoryConverter categoryConverter;
     private final OrderConverter orderConverter;
+    private final JmsService jmsService;
 
     @Autowired
     public AdminController(ProductService productService, CategoryService categoryService,
                            OrderService orderService, CustomerService customerService,
                            ProductConverter productConverter, CategoryConverter categoryConverter,
-                           OrderConverter orderConverter) {
+                           OrderConverter orderConverter, JmsService jmsService) {
         this.productService = productService;
         this.categoryService = categoryService;
         this.orderService = orderService;
@@ -45,6 +43,7 @@ public class AdminController {
         this.productConverter = productConverter;
         this.categoryConverter = categoryConverter;
         this.orderConverter = orderConverter;
+        this.jmsService = jmsService;
     }
 
     /**
@@ -105,6 +104,7 @@ public class AdminController {
     @PostMapping("/edit_product")
     public String editProduct(@ModelAttribute("productDto") ProductDto productDto) {
         productService.update(productConverter.convertToEntity(productDto));
+        jmsService.sendUpdate();
         return "redirect:/catalog";
     }
 
@@ -132,6 +132,7 @@ public class AdminController {
     @PostMapping("/delete_product")
     public String deleteProduct(@ModelAttribute("productDto") ProductDto productDto) {
         productService.update(productConverter.convertToEntity(productDto));
+        jmsService.sendUpdate();
         return "redirect:/catalog";
     }
 
@@ -172,6 +173,7 @@ public class AdminController {
     public String changeOrderStatus(@ModelAttribute OrderDto orderDto) {
         orderDto.setDateOfSale(orderService.getOne(orderDto.getId()).getDateOfSale());
         orderService.update(orderConverter.convertToEntity(orderDto));
+        jmsService.sendUpdate();
         return "redirect:/admin/orders";
     }
 
@@ -233,6 +235,7 @@ public class AdminController {
     @PostMapping("/edit_category")
     public String editCategory(@ModelAttribute CategoryDto categoryDto) {
         categoryService.update(categoryConverter.convertToEntity(categoryDto));
+        jmsService.sendUpdate();
         return "redirect:/admin/categories";
     }
 
@@ -258,6 +261,7 @@ public class AdminController {
     @PostMapping("/delete_category")
     public String deleteCategory(@ModelAttribute CategoryDto categoryDto) {
         categoryService.delete(categoryConverter.convertToEntity(categoryDto));
+        jmsService.sendUpdate();
         return "redirect:/admin/categories";
     }
 

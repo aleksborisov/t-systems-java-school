@@ -21,7 +21,7 @@ public class JmsServiceImpl implements JmsService {
     }
 
     /**
-     * Put a message in the topic to update statistics in the advertising stands
+     * Puts a message in the topic to update statistics in the advertising stands
      */
     @Override
     public void sendUpdate() {

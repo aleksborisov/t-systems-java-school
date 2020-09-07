@@ -3,7 +3,6 @@ package com.marsarmy.service.impl;
 import com.marsarmy.converter.ProductConverter;
 import com.marsarmy.dao.interf.ProductDao;
 import com.marsarmy.dto.ProductDto;
-import com.marsarmy.service.interf.JmsService;
 import com.marsarmy.statistics.ProductStatistics;
 import com.marsarmy.model.Product;
 import com.marsarmy.service.interf.ProductService;
@@ -25,15 +24,13 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductDao productDao;
     private final ProductConverter productConverter;
-    private final JmsService jmsService;
 
     private static final Logger LOGGER = Logger.getLogger(ProductServiceImpl.class);
 
     @Autowired
-    public ProductServiceImpl(ProductDao productDao, ProductConverter productConverter, JmsService jmsService) {
+    public ProductServiceImpl(ProductDao productDao, ProductConverter productConverter) {
         this.productDao = productDao;
         this.productConverter = productConverter;
-        this.jmsService = jmsService;
     }
 
     /**
@@ -65,7 +62,6 @@ public class ProductServiceImpl implements ProductService {
         }
 
         productDao.update(product);
-        jmsService.sendUpdate();
         LOGGER.info("Product #" + product.getUpc() + " was updated");
     }
 
