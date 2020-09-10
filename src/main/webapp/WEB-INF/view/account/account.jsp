@@ -38,7 +38,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col">
+            <div class="col-10">
                 <p>
                 <h1>Orders history</h1>
                 <ul>
@@ -53,9 +53,8 @@
                                 <thead>
                                 <tr>
                                     <th scope="col">#</th>
+                                    <th scope="col">UPC</th>
                                     <th scope="col">Name</th>
-                                    <th scope="col">Color</th>
-                                    <th scope="col">Price</th>
                                     <th scope="col">Quantity</th>
                                 </tr>
                                 </thead>
@@ -63,11 +62,9 @@
                                 <%! int i = 1; %>
                                 <core:forEach items="${order.productsInOrdersDto}" var="productInOrder">
                                     <tr>
-                                        <th scope="row"><%=i++%>
-                                        </th>
+                                        <th scope="row"><%=i++%></th>
+                                        <td>${productInOrder.productDto.upc}</td>
                                         <td>${productInOrder.productDto.name}</td>
-                                        <td>${productInOrder.productDto.color}</td>
-                                        <td>$${productInOrder.productDto.price}</td>
                                         <td>${productInOrder.numberOfProducts}</td>
                                     </tr>
                                 </core:forEach>

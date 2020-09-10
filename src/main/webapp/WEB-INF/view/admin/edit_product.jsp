@@ -22,7 +22,7 @@
                             <label for="name" class="col-sm-2 col-form-label">Name</label>
                             <div class="col-sm-10">
                                 <form:input path="name" type="text" name="name"
-                                            value="${productDto.name}" cssClass="form-control"/>
+                                            value="${productDto.name}" cssClass="form-control" readonly="true"/>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -79,7 +79,7 @@
                             <label for="upc" class="col-sm-2 col-form-label">UPC</label>
                             <div class="col-sm-10">
                                 <form:input path="upc" name="upc" value="${productDto.upc}" min="1" max="999999999999"
-                                            pattern="^[0-9]+$" cssClass="form-control"/>
+                                            pattern="^[0-9]+$" cssClass="form-control" readonly="true"/>
                             </div>
                         </div>
                         <div class="form-group row">
