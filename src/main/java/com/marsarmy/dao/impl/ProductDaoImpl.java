@@ -1,6 +1,7 @@
 package com.marsarmy.dao.impl;
 
 import com.marsarmy.dao.interf.ProductDao;
+import com.marsarmy.model.Category;
 import com.marsarmy.statistics.ProductStatistics;
 import com.marsarmy.model.Product;
 import com.marsarmy.model.enumeration.PaymentStatus;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Component;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,49 +91,43 @@ public class ProductDaoImpl implements ProductDao {
      * Filters products by their fields
      *
      * @param category Category name
-     * @param name Product name or its part
+     * @param name     Product name or its part
      * @param minPrice Minimum price include minPrice
      * @param maxPrice Maximum price include maxPrice
-     * @param brand Product brand
-     * @param color Product color
+     * @param brand    Product brand
+     * @param color    Product color
      * @return {@link List} of {@link Product}
      */
     @Override
     public List<Product> filter(String category, String name, int minPrice,
                                 int maxPrice, String brand, String color) {
 
-        StringBuilder query = new StringBuilder(
-                "select p from Product p where p.price >= :minPrice and p.price <= :maxPrice and p.deleted = false"
-        );
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Product> criteriaQuery = criteriaBuilder.createQuery(Product.class);
+        Root<Product> root = criteriaQuery.from(Product.class);
+
+        Predicate predicate = criteriaBuilder.ge(root.get("price"), minPrice);
+        predicate = criteriaBuilder.and(predicate, criteriaBuilder.le(root.get("price"), maxPrice));
+        predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("deleted"), false));
 
         if (category != null) {
-            query.append(" and p.category.name like '%")
-                    .append(category)
-                    .append("%'");
+            Path<Category> categoryPath = root.get("category");
+            predicate = criteriaBuilder.and(predicate, criteriaBuilder.like(categoryPath.get("name"), "%" + category + "%"));
         }
 
         if (name != null && !name.isEmpty()) {
-            query.append(" and p.name like '%")
-                    .append(name)
-                    .append("%'");
+            predicate = criteriaBuilder.and(predicate, criteriaBuilder.like(root.get("name"), "%" + name + "%"));
         }
 
         if (brand != null && !brand.isEmpty()) {
-            query.append(" and p.brand like '%")
-                    .append(brand)
-                    .append("%'");
+            predicate = criteriaBuilder.and(predicate, criteriaBuilder.like(root.get("brand"), "%" + brand + "%"));
         }
 
         if (color != null && !color.isEmpty()) {
-            query.append(" and p.color like '%")
-                    .append(color)
-                    .append("%'");
+            predicate = criteriaBuilder.and(predicate, criteriaBuilder.like(root.get("color"), "%" + color + "%"));
         }
 
-        return entityManager.createQuery(query.toString(), Product.class)
-                .setParameter("minPrice", minPrice)
-                .setParameter("maxPrice", maxPrice)
-                .getResultList();
+        return entityManager.createQuery(criteriaQuery.select(root).where(predicate)).getResultList();
     }
 
     /**
