@@ -14,7 +14,13 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-5">
-                <h1>About</h1>
+                <h1 class="text-center">About</h1>
+                <h3 class="text-center">
+                    Our store has been pleasing its customers with reliable, inexpensive and authentic equipment
+                    of Russian and Soviet production since 2015. Join the army of satisfied customers and experience
+                    legendary reliability, comrade!
+                </h3>
+                <img src="${pageContext.request.contextPath}/images/about.jpg" class="img-fluid" alt="">
             </div>
         </div>
     </div>
